@@ -17,6 +17,7 @@ import NumberFormat from 'react-number-format';
 
 
 
+
 import {
   getProfilePanelAsync,
   postBankInfoAsync,
@@ -61,9 +62,13 @@ import {
   updateFaturaDataInfoAsync,
 
   updateProfileUrlDataArrayInfoAsync,
+  updateSocialfromUrlPanel,
 
   deleteEmailArrayOnly,
   deletePhoneArrayOnly,
+  deleteFileArrayOnlyUpload,
+  deleteBankElementArrayOnlyUpload,
+  deleteProfileUrlLinkElementArrayOnlyUpload,
 
 
   postUrlLinkSocialInfoAsync,
@@ -83,7 +88,11 @@ import "react-phone-input-2/lib/style.css"; //country css
 
 //import countries and cities
 import { Country, State, City } from "country-state-city";
-import { ICountry, IState, ICity } from "country-state-city";
+
+import useTurkeyCities from "use-turkey-cities"; //Türkiye Cities
+
+
+// import { ICountry, IState, ICity } from "country-state-city";
 import { toastify } from "../../util/toastify";
 import TextField from "@mui/material/TextField"; //react mui
 import { border } from "@mui/system";
@@ -94,13 +103,17 @@ import e from "cors";
 const IbanInput = (props) => (
   <IBAN
     {...props}
-    render={({ onChange, onChangeTwo , indexTwo, value, iban, ...rest }) => (
+    render={({ onChange, onChangeTwo , indexTwo, bankIbanFormat, value, iban, ...rest }) => (
+
+      
+      
       <React.Fragment>
-        <input {...rest} onChange={(e)=>{onChange(e); onChangeTwo(e, indexTwo) }} value={value} placeholder="IBAN"  name="bankIban" />{" "}
+        <input {...rest} onChange={(e)=>{onChange(e); onChangeTwo(e, indexTwo);console.log("datagfsda", value) }} value={bankIbanFormat} placeholder="IBAN"  name="bankIban" />{" "}
         {Boolean(iban) && (
+         
           <React.Fragment>
 
-
+            
             {/* <p>
               <strong> IBAN(unformated) </strong>: <br /> {iban}{" "}
             </p>{" "}
@@ -115,19 +128,20 @@ const IbanInput = (props) => (
 
           </React.Fragment>
 
-        )}{" "}
+        )}
       </React.Fragment>
 
     )}
   />
 );
 
+
 //Account Number here
 const AccountNumberInput = (props) => (
 
   <IBAN
     {...props}
-    render={({ onChange,onChangetWO, value, iban, indexTwo,  ...rest }) => (
+    render={({ onChange,onChangetWO, value, accountNumberFormat, iban, indexTwo,  ...rest }) => (
 
 
       <React.Fragment>
@@ -135,9 +149,7 @@ const AccountNumberInput = (props) => (
           {...rest}
 
           onChange={(e)=>{ onChange(e) ; onChangetWO( e, indexTwo)}}
-
-          value={value}
-
+          value={accountNumberFormat}
           placeholder="Hesap Numara"
           name="bankAccountNumber"
 
@@ -160,7 +172,11 @@ function Panel() {
 
   const profilePanel = useSelector((state) => state.userSlice.profilePanel); //profile Panel
 
-  const profilePanelStatus = useSelector((state) => state.userSlice.status);
+  const profilePanelStatus = useSelector((state) => state.userSlice.status);  
+
+  const onlyFileUploadStatus = useSelector((state) => state.userSlice.onlyFileUploadStatus);  
+
+  // onlyFileUploadStatus
 
   const contactPoststatus = useSelector(
     (state) => state.userSlice.postContactStatus
@@ -178,6 +194,13 @@ function Panel() {
 
   const faturaDataStatus= useSelector(
     (state)=> state.userSlice.postFaturaStatus
+  )
+
+
+  //New Social media Status NewAddUrlsocialstatus
+
+  const NewSocialMediaUrlAdd= useSelector(
+    (state)=> state.socialSlice.NewAddUrlsocialstatus
   )
 
   //order status Mode  dispaly
@@ -205,9 +228,26 @@ const faturaBillorderStatus = useSelector(
   const uploadorderstatus = useSelector(
     (state) => state.userSlice.orderUploadUploadStatus
   ); //upload Profile post status
+
   const profileUrlOrderstatus = useSelector(
     (state) => state.userSlice.orderProfileUrStatus
   ); //upload Profile post status
+
+
+  
+
+
+     /// socialMedia Panel Id selector
+  const socialMediaPanelId = useSelector(
+    (state) => state.socialSlice.NewAddSocialMediaInfo
+  ); 
+
+
+
+
+  
+  
+
 
   const faturaOrderStatus = useSelector(
     (state) => state.userSlice.orderUpdateFaturaStatus
@@ -230,6 +270,8 @@ const faturaBillorderStatus = useSelector(
   }, [faturaBillorderStatus])
 
 
+  
+
 
   useEffect(() => {
     if (bankorderstatus == "success") {
@@ -250,8 +292,14 @@ const faturaBillorderStatus = useSelector(
   }, [uploadorderstatus]);
 
   useEffect(() => {
-    if (profileUrlOrderstatus == "success") {
-      getAllPanelFromChangepanelList();
+
+    console.log("helookkk", profileUrlOrderstatus )
+    if (profileUrlOrderstatus === "loading" ) {
+
+      // dispatch(
+      //   getProfilePanelAsync(localStorage.getItem("selectedProfileId"))
+      // );
+
     }
   }, [profileUrlOrderstatus]);
 
@@ -295,6 +343,8 @@ const faturaBillorderStatus = useSelector(
   useEffect(() => {
     console.log("contact Status:", uploadPoststatus);
     if (uploadPoststatus === "success") {
+
+      console.log("okkkkfdsfkk",uploadPoststatus )
       getAllPanelFromHere();
     }
   }, [uploadPoststatus]);
@@ -452,8 +502,17 @@ const faturaBillorderStatus = useSelector(
 
   function IncreaseAddFaturaDataPanel() {
 
-    setcountFaturaData(countFaturaData + 1);
+    if(ekleDoldu === false){
+      setcountFaturaData(countFaturaData + 1);
+    }
 
+   
+  }
+
+  //decraese fatura data 
+  function DecreaseFaturaDataPanel(){
+
+    setcountFaturaData(countFaturaData - 1);
 
   }
 
@@ -491,7 +550,20 @@ const faturaBillorderStatus = useSelector(
   //console.log("ülkeler", Country.getAllCountries()[0].isoCode);
   // console.log("stateler", State.getAllStates());
   // console.log("Şehirler", City.getAllCities());
-  //console.log("Şehirler", City.getCitiesOfCountry("AF"));
+
+
+  console.log("ŞehirlerERT", City.getCitiesOfCountry("TR"));
+  // console.log("Statelerjkgfd",State.getAllStates())
+
+  const { cities, city, setCity, districts, district, setDistrict } = useTurkeyCities();//Türkiye Cities
+
+  cities.map((city)=>{
+
+    console.log("citiesss", city)
+
+  })
+
+  console.log()
 
   //all countries
   function rollCallCountries(countries, index) {
@@ -593,12 +665,7 @@ function updateAllsociall(){
                 socialOrder: "",
             }
         }
-
         dispatch(updateSocialMediaUrlAsync(data));
-
-  
-
-
         })
 
         
@@ -750,6 +817,7 @@ dispatch(updatFaturaStatusModeAsync(
   }
 
   function getAllPanelFromChangepanelList() {
+
     panelListSort.map((v, i) => {
       if (
         v.OrderId &&
@@ -761,6 +829,7 @@ dispatch(updatFaturaStatusModeAsync(
           getProfilePanelAsync(localStorage.getItem("selectedProfileId"))
         );
         console.log("buradavar::");
+
       } else if (
         v.OrderId &&
         v.type == "conatctAddForm" &&
@@ -812,7 +881,7 @@ dispatch(updatFaturaStatusModeAsync(
 
   function getAllPanelFromHere() {
 
-    console.log("girmedibuu")
+    console.log("girmedibuu",panelListSort)
 
     panelListSort.map((v, i) => {
       if (
@@ -1082,10 +1151,111 @@ console.log("bankIdd::", BankDataId)
   }
 
 
-  //upadte to social Url from here
-  function addNewurladdOfsocial(){
+  useEffect(() => {
+   console.log("NewAddStatus", NewSocialMediaUrlAdd )
+  }, [NewSocialMediaUrlAdd]);
 
-    console.log("okullbitti:::")
+
+
+let NewAddUrlData= []
+
+useEffect(() => {
+ console.log("Okuul", NewAddUrlData )
+}, [NewAddUrlData]);
+
+
+const [pass,setpass]=useState("")
+
+
+
+
+const [profileUrlofSocialMediaId , setprofileUrlofSocialMediaId] = useState("");
+
+
+
+
+
+console.log("aginhdsjf",socialMediaPanelId )
+
+
+// const [newProfileId, setnewProfileId]= useState("");
+
+// const newSocialMediaId = socialMediaPanelId !==undefined ? setnewProfileId(socialMediaPanelId)  : ""
+
+// console.log("yeniadataa", newSocialMediaId)
+
+  useEffect(() => {
+
+  
+   if(socialMediaPanelId){
+
+    console.log("BuytukGor::", socialMediaPanelId)
+
+    // if(dataTo !== "" || dataTo !== undefined){
+    //   setprofileUrlofSocialMediaId(dataTo)
+    // }
+    setprofileUrlofSocialMediaId(socialMediaPanelId)
+
+   console.log("HEEEGRİD", profileUrlofSocialMediaId )
+
+
+   }
+  }, [socialMediaPanelId])
+
+  
+
+  // useEffect(() => {
+  //   if(NewSocialMediaUrlAdd === "success")
+  // }, [NewSocialMediaUrlAdd])
+
+
+
+  
+
+  useEffect(() => {
+
+    console.log("Buftdsar",profileUrlofSocialMediaId )
+
+
+
+    if(profileUrlofSocialMediaId !== ""){
+
+      panelProfileUrlSev.map((v, i) => {
+
+        // for (let index = 0; index < panelProfileUrlSev.length   ; index++) {
+
+         dispatch(
+           updateProfileUrlDataArrayInfoAsync({
+
+             panelProfileUrlDataId: profileUrlDataId,
+             arrayIndexthis: i,
+   socialOrder: v.socialOrder,
+   socialUrlHead: v.socialUrlHead,
+   socialUrlLink: v.socialUrlLink,
+   socialtype: v.socialtype,
+   statuMode: v.statuMode,
+   placeholder: v.placeholder,
+   socialMediaLinkMatch : profileUrlofSocialMediaId
+
+           })
+
+         )
+ 
+       });
+
+
+    }
+
+
+  }, [profileUrlofSocialMediaId])
+
+
+
+
+
+  //upadte to social Url from here
+  function addNewurladdOfsocial(event){
+    console.log("Oktamammm", profileUrlofSocialMediaId)
 
 console.log("panbelpro", panelProfileUrlSev)
 
@@ -1104,63 +1274,73 @@ console.log("panbelpro", panelProfileUrlSev)
 
     console.log("veara", v.newValueAdd)
 
-      if( v.newValueAdd ){
+      if( v.newValueAdd && v.socialMediaLinkMatch=== undefined){
         console.log("truuee::")
         dispatch(newSocialUrlAddAsync(data))
       }
 
+      
     })
 
 
   }
 
-  //update profile Url from here updateProfileUrlDataArrayInfoAsync
+  //update profile Url from here
 
-  function updateprofileUrlDataArray(event) {
+  function updateprofileUrlDataArray() {
 
 
     addNewurladdOfsocial()
-    
-    console.log("Tümdata::", panelProfileUrlSev)
 
-
-        event.preventDefault();
+   
         // dispatch(updateBankInfoAsync(bankDataDetails1)).then(()=>{
-
 
         panelProfileUrlSev.map((v, i) => {
 
            // for (let index = 0; index < panelProfileUrlSev.length   ; index++) {
 
-              dispatch(
-                updateProfileUrlDataArrayInfoAsync({
+            dispatch(
+              updateProfileUrlDataArrayInfoAsync({
 
-                  panelProfileUrlDataId: profileUrlDataId,
-                  arrayIndexthis: i,
-        socialOrder: v.socialOrder,
-        socialUrlHead: v.socialUrlHead,
-        socialUrlLink: v.socialUrlLink,
-        socialtype: v.socialtype,
-        statuMode: v.statuMode,
-        placeholder: v.placeholder
-        
+                panelProfileUrlDataId: profileUrlDataId,
+                arrayIndexthis: i,
+      socialOrder: v.socialOrder,
+      socialUrlHead: v.socialUrlHead,
+      socialUrlLink: v.socialUrlLink,
+      socialtype: v.socialtype,
+      statuMode: v.statuMode,
+      placeholder: v.placeholder,
+      socialMediaLinkMatch : v.socialMediaLinkMatch ? v.socialMediaLinkMatch : profileUrlofSocialMediaId
 
-                })
+              })
 
-              );
-           // }
+            ).then(()=>{
+              updateAllsociall();
 
-          //  console.log("numara bak:", v.phoneNumber);
+              if(v.socialMediaLinkMatch && v.socialMediaLinkMatch !==""){
+
+                updateSocialMediaFromUrlpanel(v.socialMediaLinkMatch, v.socialUrlLink )
+
+                console.log("varmışbsdjh")
+
+              }
+
+            })
     
           });
-    
-        // }).catch(()=>{
-        //   console.log("Olmadı bu")
-        // })
 
-        updateAllsociall()
+      
     
     
+      }
+
+//update from url panel social Media
+      function updateSocialMediaFromUrlpanel(socialMediaLinkMatch, socialUrlLink ){
+        dispatch(updateSocialfromUrlPanel({
+          socialMediaId: socialMediaLinkMatch,
+          socialUrlLink: socialUrlLink
+
+        }))
       }
 
 
@@ -1226,10 +1406,14 @@ console.log("panbelpro", panelProfileUrlSev)
   function deletePhoneArrayInContact(e ,existPhoneNumberrr,existDefaultPhoneee,index ){
 
 
+    console.log("eeeee",e)
+
      dispatch(deletePhoneArrayOnly({
+
       conatctDataId: contactDataId,
       existPhoneNumber: existPhoneNumberrr,
       existDefaultPhone: existDefaultPhoneee
+      
      })).then(()=>{
 
       removeInputPhoneHandle(index);
@@ -1256,6 +1440,73 @@ console.log("panbelpro", panelProfileUrlSev)
       console.log("Not delete")
     })
  }
+
+
+//delete File Upload Array
+function deleteFileUploadArrayOnlyOne(e, existUrlLinkOfFileUpload, index ){
+
+  dispatch(deleteFileArrayOnlyUpload({
+    belgeDocumentId:belgeDocumentId,
+    existUrlLinkOfFileUpload:existUrlLinkOfFileUpload
+  })).then(()=>{
+removeUploadFieldLess(index);
+  }).catch((err)=>{
+    console.log("Not delete")
+
+  })
+}
+
+// delete bank Element from here   
+
+//delete File Upload Array
+function deleteBankArrayOnlyOne(e, exisBankIban,existAccountOwner,existbankNumber,existbankName,existbankStation, index ){
+
+  dispatch(deleteBankElementArrayOnlyUpload({
+    bankDataId: BankDataId,
+    exisBankIban:exisBankIban,
+    existAccountOwner: existAccountOwner,
+    existbankNumber : existbankNumber,
+    existbankName : existbankName,
+    existbankStation : existbankStation
+  })).then(()=>{
+removeBankFieldLess(index)
+
+  }).catch((err)=>{
+    console.log("Not delete")
+
+  })
+}
+
+
+//delete Profile url from here   
+
+
+function deleteProfileUrlElementArrayOnlyOne(e, exiseMail,existgeneralUserId,existplaceholder,existsocialOrder,existsocialUrlHead,socialUrlLink,socialtype,
+   existstatuMode, socialMediaLinkMatch, index ){
+
+  dispatch(deleteProfileUrlLinkElementArrayOnlyUpload({
+
+    panelProfileUrlDataId: profileUrlDataId,
+    exiseMail: exiseMail,
+    existgeneralUserId: existgeneralUserId,
+    existplaceholder: existplaceholder,
+    existsocialOrder: existsocialOrder,
+    existsocialUrlHead: existsocialUrlHead,
+    socialUrlLink: socialUrlLink,
+    socialtype: socialtype,
+    existstatuMode: existstatuMode,
+    socialMediaLinkMatch:  socialMediaLinkMatch,
+
+
+  })).then(()=>{
+removeUrlPanelLinkHandle(index)
+  }).catch((err)=>{
+    console.log("Not delete")
+
+  })
+}
+
+
 
 
 
@@ -1690,7 +1941,40 @@ console.log("panbelpro", panelProfileUrlSev)
   useEffect(() => {
     // console.log(profilePanelStatus);
     // console.log("profilPanel: ", profilePanel);
+
+    console.log("changesdhj", profilePanelStatus)
+
+    if (profilePanelStatus !== "success") {
+
+      console.log("okullll")
+
+      // dispatch(
+      //   getProfilePanelAsync(localStorage.getItem("selectedProfileId"))
+      // );
+
+      
+    }
+
   }, [profilePanelStatus]);
+
+// useEffect(() => {
+
+//   console.log("fkjkfdgdfgdfg", onlyFileUploadStatus)
+
+//   if (onlyFileUploadStatus !== "success") {
+
+//     console.log("okullll")
+
+//     dispatch(
+//       getProfilePanelAsync(localStorage.getItem("selectedProfileId"))
+//     );
+
+    
+//   }
+
+// }, [onlyFileUploadStatus])
+
+
 
   useEffect(() => {
     // console.log("delete panel status:", deletePanelstatus);
@@ -1739,10 +2023,16 @@ console.log("panbelpro", panelProfileUrlSev)
     console.log("panel List orderId yeni:", panelListSort);
     console.log("panel List orderId old:", panels);
 
+
+
+
+
+
+
     panelListSort.map((v, i) => {
 
-      if(v.type==="faturaData"){
-        setekleDoldu(true)
+      if(v.type==="faturaData" && v.OrderId){
+        setekleDoldu(true);
       }
 
       if (
@@ -1752,6 +2042,14 @@ console.log("panbelpro", panelProfileUrlSev)
       ) {
         setprofileUrlPanel(v.panelUrlLink);
       }
+
+
+      // if(  v.type  ===  "uploadFileDocument"){
+
+      //   setuploadFileField(v.belgeDocumentUploads);
+
+
+      // }
 
       // if (v.OrderId != i) {
       //   setpanelListSort((v) =>
@@ -1934,7 +2232,9 @@ console.log("panbelpro", panelProfileUrlSev)
     setorderIdOfFileUpload(newOrderId);
 
     setprofileCity(profileCity);
-    setprofileCountry(profileCountry ? profileCountry : "Turkey");
+    
+     console.log("ulkegh", profileCountry) 
+    setprofileCountry(profileCountry  ? profileCountry : "Türkiye");
     setprofileNot(profileNot);
     setprofilePosition(profilePosition);
 
@@ -1945,7 +2245,7 @@ console.log("panbelpro", panelProfileUrlSev)
     setemailInputServ(takenEmailEpostaState ? takenEmailEpostaState : []);
 
     //set bank form heer
-    setbankFiledAdd (bankDataList ? bankDataList : [] );
+    setbankFiledAdd(bankDataList ? bankDataList : [] );
 
     setuploadFileField(belgeDocumentUploads ? belgeDocumentUploads : [] );
 
@@ -2140,7 +2440,7 @@ console.log("panbelpro", panelProfileUrlSev)
   }
 
 
-  //remove fatura from here
+  
 
   async function RemovePanelRemoveFatura(arr) {
     let newArray = [...arr];
@@ -2219,6 +2519,9 @@ console.log("panbelpro", panelProfileUrlSev)
     // return setPanels(newPanel);
   }
 
+  //Remove Fatura From Panel
+
+
   //File Upload Fromheer Remove
   async function RemovePanelRemoveFileUploadPdf(arr) {
     let newArray = [...arr];
@@ -2258,6 +2561,12 @@ console.log("panbelpro", panelProfileUrlSev)
 
   const[fileUploadContent,setfileUploadContent]= useState("Dosya yükle (maks. 5MB)")
 
+  useEffect(() => {
+    console.log("changesmake",  fileUploadContent )
+
+
+  }, [fileUploadContent])
+
   function handleImageChange(event) {
 
     const image = event.target.files[0];
@@ -2290,10 +2599,24 @@ console.log("panbelpro", panelProfileUrlSev)
 
   // Upload Change from here File
 function handleChangeFileToUpload(e){
+
+
   dispatch(fileUploadChangeAsync({
     belgeDocument: uploadFilestatueMode,
     belgeDocumentId: belgeDocumentId
-  }));
+  })).then(()=>{
+
+    panelListSort.map((v,i)=>{
+      if(  v.type==="uploadFileDocument" && v.belgeDocumentUploads.length > 1){
+
+        setuploadFileField(v.belgeDocumentUploads);
+        setfileUploadContent("Dosya yükle (maks. 5MB)");
+
+      }
+    })
+
+
+  })
 }
 
 
@@ -2384,18 +2707,26 @@ function handleChangeFileToUpload(e){
   // add Fatura Data from here
   async function NewPanelFtauraEkle() {
 
-    await setPanels((v) => [
-      ...v,
-      {
-        id: v.length == 0 ? 0 : v[v.length - 1].OrderId + 1,
-        isOpen: false,
-        type: "faturaData",
-        isEditTitle: false,
-        statueMode: true,
-        panelTitle: "Başlık",
-      },
-    ]);
 
+    if(ekleDoldu === false){
+
+      await setPanels((v) => [
+        ...v,
+        {
+          id: v.length == 0 ? 0 : v[v.length - 1].OrderId + 1,
+          isOpen: false,
+          type: "faturaData",
+          isEditTitle: false,
+          statueMode: true,
+          panelTitle: "Başlık",
+        },
+      ]);
+  
+
+
+    }
+
+    
 
 
     //setNewPanel(false);
@@ -2467,13 +2798,31 @@ function handleChangeFileToUpload(e){
     // );
   }
 
-  const divDecreaseStatuPanel = countContactPanel == 0 ? "none" : "";
-  const divDecreaseStatuBankPanel = countBankaPanel == 0 ? "none" : "";
-  const divDecreaseStatuDocumentPanel = countDocumentPanel == 0 ? "none" : "";
+  const[ekleDoldu,setekleDoldu]= useState(false)
+
+
+  //fatura Ekle Doldu  yazi gelsin
+const [ekledolduyazi,setekledolduyazi]= useState("");
+
+  function ekleDolduFaturaYazi(){
+
+     if(ekleDoldu === true){
+      setekledolduyazi("1 Fatura Eklenebilir")
+
+      console.log("doldubu",ekleDoldu)
+     }
+  }
+
+  const divDecreaseStatuPanel = countContactPanel === 0 ? "none" : "";
+  const divDecreaseStatuBankPanel = countBankaPanel === 0 ? "none" : "";
+  const divDecreaseStatuDocumentPanel = countDocumentPanel === 0 ? "none" : "";
   const divDecreaseStatueUploadFilePanel =
-    countUploadfilePanel == 0 ? "none" : "";
+    countUploadfilePanel === 0 ? "none" : "";
   const divDecreaseStatueProfileUrlPanel =
-    countProfileUrlPanel == 0 ? "none" : "";
+    countProfileUrlPanel === 0 ? "none" : "";
+
+    const divDecreaeFatura = countFaturaData === 0 || ekleDoldu ? "none": "";
+    const divIncreaseFtaura= countFaturaData === 1 || ekleDoldu ? "none" : "";
 
 
   //Multiply Bank Info Add More
@@ -2484,6 +2833,8 @@ function handleChangeFileToUpload(e){
 
   useEffect(() => {
     console.log("fileThere::",uploadFileField)
+
+
   }, [uploadFileField])
 
 
@@ -2609,7 +2960,8 @@ function handleChangeFileToUpload(e){
   //bank hesap Numara
 
 
-  function handleBankPanelListBankAccountNumber( e , index ) {
+
+  function handleBankPanelListBankAccountNumber( e , index) {
 
 
     //console.log("targethbankaccountNum : ", e.target)
@@ -2625,10 +2977,12 @@ function handleChangeFileToUpload(e){
     var o = Object.create(list[index]);
 
     Object.defineProperty(o, [name], {
+
       value: value,
       writable: true,
       enumerable: true,
       configurable: true,
+
     });
 
     //console.log("emailpart::",list[index][name] )
@@ -2771,6 +3125,7 @@ function handleChangeFileToUpload(e){
       placeholder: panelProfileUrlSev[index].placeholder,
       socialUrlLink:o.socialUrlLink,
       socialtype:panelProfileUrlSev[index].socialtype,
+      socialMediaLinkMatch:panelProfileUrlSev[index].socialMediaLinkMatch,
       statuMode: true,
       newValueAdd:true
 
@@ -2948,6 +3303,8 @@ function handleChangeFileToUpload(e){
 
   function onChange({ value, iban }) {
     setbankIban(value, iban);
+
+    console.log("datadfgda", bankIban)
   }
 
   //account Number onChange
@@ -3087,9 +3444,9 @@ useEffect(() => {
 
     {
       socialMeidaName: "Web Site",
-      icon: '<i class="fa-regular fa-globe"></i>',
+      icon: '<i class="fa fa-dribbble"></i>',
       socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "website" ? true : false),
-      urlLink: "https://",
+      urlLink: "http://",
       placeholder:"hibritcard.com",
       socialtype:"web",
       socialUrlLink:""
@@ -3099,7 +3456,7 @@ useEffect(() => {
           socialMeidaName: "whatsapp",
           icon: '<i class="fa-brands fa-whatsapp"></i>',
           socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "whatsapp" ? true : false),
-          urlLink: "https://whatsap.com/+",
+          urlLink: "http://wa.me/+",
           placeholder:"905351035340",
           socialtype:"whatsapp",
       socialUrlLink:""
@@ -3148,7 +3505,7 @@ useEffect(() => {
           socialMeidaName: "linkedin",
           icon: '<i class="fa-brands fa-linkedin "></i>',
           socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "linkedin" ? true : false) ? true : false,
-          urlLink: "https://linkedin.com/",
+          urlLink: "https://linkedin.com/in/",
           placeholder:"",
           socialtype:"linkedin",
           socialUrlLink:""
@@ -3469,12 +3826,12 @@ console.log("nameBuu::", urlLinkName)
 function addUrlLinkOfSocial(e,v){
   setSocialAdd(false)
   
-  addUrlPanelInputHandle(v.urlLink, v.placeholder,v.socialUrlLink,v.socialtype)
+  addUrlPanelInputHandle(v.urlLink, v.placeholder,v.socialUrlLink,v.socialtype,)
 
 }
 
 
-const[ekleDoldu,setekleDoldu]= useState(false)
+
 
 
 
@@ -3540,13 +3897,20 @@ const[ekleDoldu,setekleDoldu]= useState(false)
                       fill="#8B8DFF"
                     />
                   </svg>
+
+                 
+
+
                 </div>
               ) : (
                 <div
                   onClick={() => setNewPanel(false)}
                   className="close-button"
                 >
-                  <i className="fa-solid fa-xmark"> </i>{" "}
+                  <i className="fa-solid fa-xmark" style={{
+                    color:"#8B8DFF"
+                  }}> </i>
+
                 </div>
               )}
               <div className="header-text"> Panel Ekle </div>{" "}
@@ -3575,10 +3939,13 @@ const[ekleDoldu,setekleDoldu]= useState(false)
                   </div>{" "}
                   <div className="type-text">
                     {" "}
-                    İletişim Bilgisi
+                    İletişim
+
                     {/* İletişim bilgileriniz(telefon, mail vb.) ekleyebilirsiniz.{" "} */}
+
                   </div>{" "}
                   <div className="type-add" style={{ display: "flex" }}>
+
                     <div
                       class="value-button"
                       id="decrease"
@@ -3662,7 +4029,7 @@ const[ekleDoldu,setekleDoldu]= useState(false)
                   </div>{" "}
                   <div className="type-text">
                     {" "}
-                    Url Linki
+                    Sosyal Medya / Web
                     {/* İstediğiniz url adresini profilinizde sergileyebilirsiniz. */}
                   </div>{" "}
                   <div className="type-add" style={{ display: "flex" }}>
@@ -3747,7 +4114,7 @@ const[ekleDoldu,setekleDoldu]= useState(false)
                   </div>{" "}
                   <div className="type-text w-full">
                     {" "}
-                    Banka Hesap bilgisi
+                    Banka Hesapları
                     {/* Banka hesap bilgilerinizi ekleyebilirsiniz.{" "} */}
                   </div>{" "}
                   <div className="type-add" style={{ display: "flex" }}>
@@ -3921,7 +4288,7 @@ const[ekleDoldu,setekleDoldu]= useState(false)
                   </div>{" "}
                   <div className="type-text">
                     {" "}
-                    Müşteri İletişim formu
+                    Müşteri İletişim Formu
                     {/* İletişim formu sayesinde kişisel bilgilerinzi vermeden
                     kişilerle iletişime geçebilirsiniz..{" "} */}
                   </div>{" "}
@@ -3970,6 +4337,9 @@ const[ekleDoldu,setekleDoldu]= useState(false)
                 </div>{" "}
 
                 {/* fatura Biligisi Ekleyin Buarada */}
+
+
+
                 <div className="panel-type-item w-full">
                   <div className="type-icon">
                     {" "}
@@ -3986,14 +4356,17 @@ const[ekleDoldu,setekleDoldu]= useState(false)
 
                     {/* <img src="" alt="" /> */}
                   </div>{" "}
-                  <div className="type-text" style={{marginRight:"40px"}}>
+                  <div className="type-text" >
                     {" "}
-                    Fatura Bilgisi
+                    Fatura Bilgileri
                     {/* İletişim bilgileriniz(telefon, mail vb.) ekleyebilirsiniz.{" "} */}
                   </div>{" "}
-                  <div className="type-add" style={{  marginRight:"33px" }}
+
+
+                  {/* <div className="type-add" style={{  marginRight:"33px" }}
                   onClick={(e)=>{NewPanelFtauraEkle(e);   IncreaseAddFaturaDataPanel(e) ; }}
                   >
+                    
 
 
 {
@@ -4014,8 +4387,134 @@ const[ekleDoldu,setekleDoldu]= useState(false)
 }
                     
 
+                  </div> */}
+
+
+                 
+
+                      <div className="type-add" style={{ display: "flex" }}
+
+>
+                    <div
+                      class="value-button"
+                      id="decrease"
+                     onClick={(e)=>{
+                      DecreaseFaturaDataPanel(e);
+                      RemovePanelRemoveFatura(panels);
+                     }}
+                      style={{
+                        pointerEvents: divDecreaeFatura,
+                      }}
+                    >
+                      <div
+                        style={{
+                          marginTop: "10px",
+                        }}
+                      >
+                        -
+                      </div>
+                    </div>
+                    <input
+                      type="number"
+                      id="number"
+                      value={ ekleDoldu ? 0 : countFaturaData}
+                    />
+                    <div
+                      class="value-button"
+                      id="increase"
+
+                      onClick={(e)=>{NewPanelFtauraEkle(e); IncreaseAddFaturaDataPanel(e); ekleDolduFaturaYazi(e) }}
+
+                      // style={{
+                      //   pointerEvents: divIncreaseFtaura,
+                      // }}
+                     
+                    >
+                      <div
+                        style={{
+                          marginTop: "10px",
+                        }}
+                      >
+                        +
+                      </div>
+                    </div>
+
+
+
+
+
                   </div>
+
+                  
+
+                   
                 </div>
+
+                {/* {
+                    ekledolduyazi !=="" && (
+
+                      <div className="panel-type-item w-full">
+
+<div style={{
+                        color:"red",
+                        fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "center",
+justifyContent:"end",
+position:"absolute"
+                      }}  >
+                        {ekledolduyazi}
+                      </div>
+
+
+                      </div>
+
+                     
+                    )
+                  } */}
+
+
+                  
+{
+                    ekledolduyazi !=="" && (
+
+                     
+
+<div style={{
+                        color:"red",
+                        fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+// textAlign: "center",
+justifyContent:"end",
+width:"100%"
+                      }}  >
+                        <div  style={{
+                          position: "relative",
+                          textAlign: "end",
+                          justifyContent: "end",
+                          width: "100%",
+                          marginTop: "-20px",
+                        }}>
+                        {ekledolduyazi}
+                        </div>
+                       
+                      </div>
+
+
+                      
+
+                     
+                    )
+                  }
+
+
+               
 
 
 
@@ -4480,6 +4979,7 @@ fontWeight: 700,
 fontSize: "11px",
 lineHeight: "13px",
 margin:"auto",
+color:"#8B8DFF"
 
 }}>
                                         Düzenle
@@ -4527,7 +5027,7 @@ fontWeight: 700,
 fontSize: "11px",
 lineHeight: "13px",
 margin:"auto",
-
+color:"#8B8DFF"
 }}>
                                         Düzenle
                                       </div>
@@ -4590,7 +5090,7 @@ fontWeight: 700,
 fontSize: "11px",
 lineHeight: "13px",
 margin:"auto",
-
+color:"#8B8DFF"
 }}>
                                         Düzenle
                                       </div>
@@ -4625,6 +5125,7 @@ fontWeight: 700,
 fontSize: "11px",
 lineHeight: "13px",
 margin:"auto",
+color:"#8B8DFF"
 
 }}>
                                         Düzenle
@@ -4655,6 +5156,7 @@ fontWeight: 700,
 fontSize: "11px",
 lineHeight: "13px",
 margin:"auto",
+color:"#8B8DFF"
 
 }}>
                                         Düzenle
@@ -4688,6 +5190,7 @@ fontWeight: 700,
 fontSize: "11px",
 lineHeight: "13px",
 margin:"auto",
+color:"#8B8DFF"
 
 }}>
                                         Düzenle
@@ -4808,41 +5311,19 @@ margin:"auto",
                                   style={{ cursor: "pointer" }}
                                 >
                                   {" "}
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M4 5C4 4.44772 4.44772 4 5 4H19C19.5523 4 20 4.44772 20 5C20 5.55228 19.5523 6 19 6H5C4.44772 6 4 5.55228 4 5Z"
-                                      fill="black"
-                                      fill-opacity="0.5"
-                                    />
-                                    <path
-                                      fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M8.77778 3.33334C8.77778 2.59695 9.37473 2 10.1111 2L13.8889 2C14.6253 2 15.2222 2.59696 15.2222 3.33334C15.2222 3.70153 15.5207 4 15.8889 4H16V6H15.8889C14.6463 6 13.6023 5.15015 13.3062 4L10.6938 4C10.3977 5.15015 9.35367 6 8.11111 6H8V4L8.11111 4C8.4793 4 8.77778 3.70153 8.77778 3.33334Z"
-                                      fill="black"
-                                      fill-opacity="0.5"
-                                    />
-                                    <path
-                                      fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M5.91701 8.00345C6.46739 7.95759 6.95074 8.36658 6.9966 8.91695L7.76736 18.1661C7.85374 19.2027 8.72028 20 9.76045 20H14.2397C15.2798 20 16.1464 19.2027 16.2327 18.1661L17.0035 8.91695C17.0494 8.36658 17.5327 7.95759 18.0831 8.00345C18.6335 8.04932 19.0425 8.53267 18.9966 9.08305L18.2258 18.3322C18.0531 20.4054 16.32 22 14.2397 22H9.76045C7.6801 22 5.94704 20.4054 5.77427 18.3322L5.00351 9.08305C4.95765 8.53267 5.36663 8.04932 5.91701 8.00345Z"
-                                      fill="black"
-                                      fill-opacity="0.5"
-                                    />
-                                  </svg>
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4 5C4 4.44772 4.44772 4 5 4H19C19.5523 4 20 4.44772 20 5C20 5.55228 19.5523 6 19 6H5C4.44772 6 4 5.55228 4 5Z" fill="#8B8DFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8.77778 3.33333C8.77778 2.59695 9.37473 2 10.1111 2L13.8889 2C14.6253 2 15.2222 2.59695 15.2222 3.33333C15.2222 3.70152 15.5207 4 15.8889 4H16V6H15.8889C14.6463 6 13.6023 5.15015 13.3062 4L10.6938 4C10.3977 5.15015 9.35367 6 8.11111 6H8V4L8.11111 4C8.4793 4 8.77778 3.70152 8.77778 3.33333Z" fill="#8B8DFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.91695 8.00345C6.46733 7.95758 6.95068 8.36657 6.99654 8.91695L7.7673 18.1661C7.85368 19.2027 8.72022 20 9.76039 20H14.2396C15.2798 20 16.1463 19.2027 16.2327 18.1661L17.0034 8.91695C17.0493 8.36657 17.5327 7.95758 18.083 8.00345C18.6334 8.04931 19.0424 8.53266 18.9965 9.08304L18.2258 18.3322C18.053 20.4053 16.32 22 14.2396 22H9.76039C7.68004 22 5.94697 20.4053 5.77421 18.3322L5.00345 9.08304C4.95758 8.53266 5.36657 8.04931 5.91695 8.00345Z" fill="#8B8DFF"/>
+</svg>
+
+
+
                                 </div>{" "}
                               </div>{" "}
                             </div>{" "}
                           </button>{" "}
                         </div>{" "}
-
 
 
                         {value.type == "conatctAddForm" ? (
@@ -4984,7 +5465,7 @@ margin:"auto",
                                             className="panel-input"
                                             style={{ margin: "auto" }}
                                             onClick={(e) =>{
-                                              deletePhoneArrayInContact(e,singleTelefonInput.phoneNumber, singleTelefonInput.defaultNumber ,index)
+                                              deletePhoneArrayInContact( e,singleTelefonInput.phoneNumber, singleTelefonInput.defaultNumber ,index)
                                             }}
                                           >
                                             <button
@@ -5087,8 +5568,13 @@ onClick={addPhoneInputHandle}
     marginTop: "auto",
     marginBottom: "auto",
   }}
->
-  Ekle
+>&nbsp;
+<span style={{
+  borderBottom: "1px solid #8B8DFF "
+}}>
+Yeni Ekle
+</span>
+ 
 </div>
 </div>
 )}
@@ -5265,7 +5751,12 @@ onClick={addEmailInputHandle}
     marginBottom: "auto",
   }}
 >
-  Ekle
+&nbsp;
+<span style={{
+  borderBottom: "1px solid #8B8DFF "
+}}>
+Yeni Ekle
+</span>
 </div>
 </div>
 
@@ -5301,11 +5792,13 @@ onClick={addEmailInputHandle}
                                       {Country.getAllCountries().map(
                                         (name, index) => (
                                           <option key={index} value={name.name}>
-                                            {name.name}
+                                            {name.name ==="Turkey" ? "Türkiye" : name.name}
                                           </option>
                                         )
                                       )}
-                                    </select>{" "}
+                                    </select>
+
+
                                     <div className="input-space"> </div>{" "}
                                     <select
                                       id="grid-state"
@@ -5314,16 +5807,25 @@ onClick={addEmailInputHandle}
                                         setprofileCity(e.target.value);
                                       }}
                                     >
-                                      {City.getCitiesOfCountry(coutryCity).map(
+                                      { profileCountry !== "Turkey" ?  City.getCitiesOfCountry(coutryCity).map(
                                         (name, index) => {
                                           return (
                                             <option key={index}>
                                               {" "}
-                                              {name.name}{" "}
+                                              {name.name}
                                             </option>
                                           );
                                         }
-                                      )}{" "}
+                                      ) : cities.map(
+                                        (name, index) => {
+                                          return (
+                                            <option key={index}>
+                                              {" "}
+                                              {name}
+                                            </option>
+                                          );
+                                        }
+                                      )  }
                                     </select>{" "}
                                   </div>
                                   <div className="panel-input">
@@ -5362,6 +5864,7 @@ onClick={addEmailInputHandle}
                                 (value.isDeleteOpen == true
                                   ? "p-open"
                                   : "p-close")
+
                               }
                             >
                               <div className="panel-inner-header">
@@ -5376,6 +5879,8 @@ onClick={addEmailInputHandle}
                                   <i className="fa-solid fa-xmark"> </i>{" "}
                                 </div>{" "}
                               </div>{" "}
+
+                              
                               <div className="panel-inner-content">
                                 <div
                                   className="panel-inner-content-info"
@@ -5389,6 +5894,17 @@ onClick={addEmailInputHandle}
                                     onClick={() =>
                                       DeletePanelOpen(value.OrderId, props.key)
                                     }
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                  }}
                                   >
                                     Hayır{" "}
                                   </div>{" "}
@@ -5403,11 +5919,24 @@ onClick={addEmailInputHandle}
                                       );
                                       delteContactData();
                                     }}
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                  }}
                                   >
                                     Evet{" "}
                                   </div>{" "}
                                 </div>{" "}
-                              </div>{" "}
+                              </div>
+
+
+
                             </button>
                           </div>
                         ) : value.type == "bankform" ? (
@@ -5449,8 +5978,9 @@ onClick={addEmailInputHandle}
                                             marginTop: "10px",
                                           }}
                                         >
-                                          {bankFiledAdd.length - 1 !==
-                                            index && (
+                                         
+
+
                                             <div
                                               style={{
                                                 width: "100%",
@@ -5464,8 +5994,11 @@ onClick={addEmailInputHandle}
                                                 viewBox="0 0 24 24"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                onClick={() =>
-                                                  removeBankFieldLess(index)
+                                                onClick={(e) =>
+
+                                                  deleteBankArrayOnlyOne(e, singleBankField.bankIban, singleBankField.accountOwner, 
+                                                    singleBankField.bankAccountNumber, singleBankField.bankName,singleBankField.bankStation, index
+                                                    )
                                                 }
                                               >
                                                 <path
@@ -5491,7 +6024,10 @@ onClick={addEmailInputHandle}
                                                 />
                                               </svg>
                                             </div>
-                                          )}
+
+
+
+                                          
 
                                           <div className="panel-input">
                                             <input
@@ -5544,12 +6080,11 @@ onClick={addEmailInputHandle}
                                     /> */}
 
                                             <IbanInput
-
                                               onChange={onChange}
                                               value={singleBankField.bankIban}
-
                                               onChangeTwo={ handleBankPanelListBankAccountNumber }
                                               indexTwo={index}
+                                              bankIbanFormat={bankIban === ""? singleBankField.bankIban : bankIban }
 
                                             />
                                           </div>
@@ -5559,12 +6094,14 @@ onClick={addEmailInputHandle}
 
 
                                             <AccountNumberInput
-                                              onChange={ onChangeBankAccount}
 
+                                              onChange={ onChangeBankAccount}
                                               onChangetWO={ handleBankPanelListBankAccountNumber }
                                               indexTwo={index}
 
                                               value={singleBankField.bankAccountNumber}
+
+                                              accountNumberFormat={bankAccountNum === "" ? singleBankField.bankAccountNumber : bankAccountNum }
 
                                             />
                                           </div>
@@ -5623,7 +6160,12 @@ onClick={addEmailInputHandle}
                                                 marginBottom: "auto",
                                               }}
                                             >
-                                              Ekle
+                                              &nbsp;
+<span style={{
+  borderBottom: "1px solid #8B8DFF "
+}}>
+Yeni Ekle
+</span>
                                             </div>
                                           </div>
                                         )}
@@ -5667,6 +6209,17 @@ onClick={addEmailInputHandle}
                                     onClick={() =>
                                       DeletePanelOpen(value.OrderId, props.key)
                                     }
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                  }}
                                   >
                                     Hayır{" "}
                                   </div>{" "}
@@ -5677,6 +6230,16 @@ onClick={addEmailInputHandle}
                                       delteBankData();
                                       RemovePanelRemoveBanka(panels, props.key);
                                     }}
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                  }}
                                   >
                                     Evet{" "}
                                   </div>{" "}
@@ -5918,6 +6481,17 @@ onClick={addEmailInputHandle}
                                     onClick={() =>
                                       DeletePanelOpen(value.OrderId, props.key)
                                     }
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                  }}
                                   >
                                     Hayır{" "}
                                   </div>{" "}
@@ -5931,6 +6505,16 @@ onClick={addEmailInputHandle}
                                         props.key
                                       );
                                     }}
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                  }}
                                   >
                                     Evet{" "}
                                   </div>{" "}
@@ -5948,6 +6532,8 @@ onClick={addEmailInputHandle}
                                 (value.isOpen == true ? "p-open" : "p-close")
                               }
                             >
+
+
                               <div className="panel-inner-header">
                                 <div className="text"> Belge Yükle </div>{" "}
                                 <div
@@ -5957,7 +6543,7 @@ onClick={addEmailInputHandle}
                                   {" "}
                                   <i className="fa-solid fa-xmark"> </i>{" "}
                                 </div>{" "}
-                              </div>{" "}
+                              </div>
 
 
 
@@ -6018,33 +6604,42 @@ Belge {index}
       </div>
   
     ):(
+      
+
+     uploadFileField.length > 1 && singleUploadFile.fileIndex === 0  ? (
+      <div   style={{
+        display: "none"
+      }}>
+
+      </div>
+     ): (
       <div
-            className="panel-input"
-            style={{
-              justifyContent: "center",
-              marginTop: "10px",
-              cursor: "pointer",
-              width:"100%"
-            }}
-            // onClick={
-            //   belgeDocumentId != undefined
-            //     ? uploadChangeFiles
-            //     : handleUploadFile
-            // }
-            onClick={(e) => handleEditPicture(e)}
+      className="panel-input"
+      style={{
+        justifyContent: "center",
+        marginTop: "10px",
+        cursor: "pointer",
+        width:"100%"
+      }}
+      // onClick={
+      //   belgeDocumentId != undefined
+      //     ? uploadChangeFiles
+      //     : handleUploadFile
+      // }
+      onClick={(e) => handleEditPicture(e)}
 
-          >
-           <button  className="global-button content-buttons-item primary-button" style={{
-          background: "#8B8DFF",
-          borderRadius: "10px",
-          
-        }}>
+    >
+     <button  className="global-button content-buttons-item primary-button" style={{
+    background: "#8B8DFF",
+    borderRadius: "10px",
+    
+  }}>
 
-          <div style={{ display:"flex", justifyContent:"center"}}>
+    <div style={{ display:"flex", justifyContent:"center"}}>
 
-          <div>
+    <div>
 
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M1.41666 8.50002C1.41666 4.588 4.58797 1.41669 8.49999 1.41669C12.412 1.41669 15.5833 4.588 15.5833 8.50002C15.5833 12.412 12.412 15.5834 8.49999 15.5834C4.58797 15.5834 1.41666 12.412 1.41666 8.50002ZM8.49999 2.83335C5.37038 2.83335 2.83332 5.37041 2.83332 8.50002C2.83332 11.6296 5.37038 14.1667 8.49999 14.1667C11.6296 14.1667 14.1667 11.6296 14.1667 8.50002C14.1667 5.37041 11.6296 2.83335 8.49999 2.83335Z" fill="white"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.50001 4.95831C8.89121 4.95831 9.20834 5.27544 9.20834 5.66665V7.79165H11.3333C11.7245 7.79165 12.0417 8.10878 12.0417 8.49998C12.0417 8.89118 11.7245 9.20831 11.3333 9.20831H9.20834V11.3333C9.20834 11.7245 8.89121 12.0416 8.50001 12.0416C8.10881 12.0416 7.79168 11.7245 7.79168 11.3333V9.20831H5.66668C5.27548 9.20831 4.95834 8.89118 4.95834 8.49998C4.95834 8.10878 5.27548 7.79165 5.66668 7.79165H7.79168V5.66665C7.79168 5.27544 8.10881 4.95831 8.50001 4.95831Z" fill="white"/>
 </svg>
@@ -6052,7 +6647,7 @@ Belge {index}
 
 
 </div>
- 
+
 
 &nbsp;&nbsp;
 
@@ -6060,16 +6655,19 @@ Belge {index}
 {fileUploadContent}
 </div>
 
-          </div>
+    </div>
 
 
-          
+    
 
 
-           </button>
-  
-  
-          </div>
+     </button>
+
+
+    </div>
+     )
+
+
     )
   }
 
@@ -6077,10 +6675,19 @@ Belge {index}
 
 
 
+{
+uploadFileField.length > 0 && singleUploadFile.fileIndex === 0 ? (
+  <div  style={{
+    display: "none"
+  }}>
 
-<div
+  </div>
+):(
+
+  <div
     className=""
-    onClick={()=>removeUploadFieldLess(index)}
+    onClick={(e)=>deleteFileUploadArrayOnlyOne(e,singleUploadFile.belgeDocument ,index )}
+
   >
     <button
       className="global-button content-buttons-item primary-buttonaddRemove "
@@ -6124,6 +6731,14 @@ Belge {index}
     </button>
   </div>
 
+)
+
+}
+
+
+
+
+
 
 
 
@@ -6150,7 +6765,7 @@ Belge {index}
   uploadFileField.length -1 == index && (
 
 
-    singleUploadFile.belgeDocument ?(
+    singleUploadFile.belgeDocument ? (
       <div
     style={{ display: "flex", cursor:"pointer" }}
     onClick={addUploadFileMore}
@@ -6185,7 +6800,12 @@ Belge {index}
         marginBottom: "auto",
       }}
     >
-      Ekle
+      &nbsp;
+<span style={{
+  borderBottom: "1px solid #8B8DFF "
+}}>
+Yeni Ekle
+</span>
     </div>
     </div>
     ) :(
@@ -6277,6 +6897,17 @@ Belge {index}
                                     onClick={() =>
                                       DeletePanelOpen(value.OrderId, props.key)
                                     }
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                  }}
                                   >
                                     Hayır{" "}
                                   </div>{" "}
@@ -6290,6 +6921,15 @@ Belge {index}
                                         props.key
                                       );
                                     }}
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                  }}
                                   >
                                     Evet{" "}
                                   </div>{" "}
@@ -6408,15 +7048,24 @@ Belge {index}
       {/* {panelProfileUrlSev.length - 1 ===
         index && ( */}
 
+
+
         <div
           className="panel-input"
           style={{ margin: "auto" , marginTop:"20px" }}
-          onClick={() =>
-            removeUrlPanelLinkHandle(index)
+          onClick={(e) =>{
+
+            // console.log("singleall", singleUrl )
+
+            deleteProfileUrlElementArrayOnlyOne(e, singleUrl.eMail, singleUrl.generalUserId, singleUrl.placeholder, singleUrl.socialOrder,
+              singleUrl.socialUrlHead, singleUrl.socialUrlLink, singleUrl.socialtype, singleUrl.statuMode, singleUrl.socialMediaLinkMatch, index
+              );
+
+          }
+            
           }
         >
           <button
-
             className="global-button content-buttons-item primary-buttonaddRemove"
 
             style={{
@@ -6529,6 +7178,17 @@ Belge {index}
                                     onClick={() =>
                                       DeletePanelOpen(value.OrderId, props.key)
                                     }
+
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                  }}
                                   >
                                     Hayır{" "}
                                   </div>{" "}
@@ -6543,6 +7203,15 @@ Belge {index}
                                       );
                                       delteProfileUrlData();
                                     }}
+                                    style={{
+                                      fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                  }}
                                   >
                                     Evet{" "}
                                   </div>{" "}
@@ -6597,6 +7266,7 @@ Belge {index}
 
 
 <div className="panel-input">
+  
 <NumberFormat type='tel' value={taxNumber}
 onChange={(e)=>settaxNumber(e.target.value)}
 
@@ -6697,6 +7367,17 @@ onChange={(e)=> setofficeEmail(e.target.value) }
                                   onClick={() =>
                                     DeletePanelOpen(value.OrderId, props.key)
                                   }
+
+                                  style={{
+                                    fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                }}
                                 >
                                   Hayır{" "}
                                 </div>{" "}
@@ -6711,6 +7392,16 @@ onChange={(e)=> setofficeEmail(e.target.value) }
                                     );
                                     deleteFaturaBill();
                                   }}
+
+                                  style={{
+                                    fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                }}
                                 >
                                   Evet{" "}
                                 </div>{" "}

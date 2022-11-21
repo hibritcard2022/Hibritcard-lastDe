@@ -31,6 +31,7 @@ function PublicProfile() {
   const allSocial = useSelector((state) => state.publicProfileSlice.allSocial);
   const [allSocialSelectProfieId, setAllSocialSelectProfieId] = useState([]);
   const [allPanelSelectProfieId, setAllPanelSelectProfieId] = useState([]);
+  
   const [allSocialSort, setAllSocialSort] = useState([]);
   const [allPanelSort, setAllPanelSort] = useState([]);
 
@@ -85,17 +86,26 @@ function PublicProfile() {
   }, [allProfile]);
 
   useEffect(() => {
-    setAllSocialSelectProfieId( allSocial != undefined ? allSocial.filter((x) => x.profileId == slug[1]) : []);
+    setAllSocialSelectProfieId(
+      allSocial != undefined
+        ? allSocial.filter((x) => x.profileId == slug[1])
+        : []
+    );
   }, [allSocial]);
 
   useEffect(() => {
-    console.log("allpanelk::", allPanel)
-    setAllPanelSelectProfieId( allPanel != undefined ? allPanel.filter((x) => x.profileId == slug[1]): []);
+    console.log("allpanelk::", allPanel);
+
+    setAllPanelSelectProfieId(
+      allPanel != undefined
+        ? allPanel.filter((x) => x.profileId == slug[1])
+        : []
+    );
   }, [allPanel]);
-  
 
   useEffect(() => {
-    console.log("soso:",allSocialSelectProfieId )
+    console.log("soso:", allSocialSelectProfieId);
+
     if (allSocialSelectProfieId) {
       setAllSocialSort(
         [...allSocialSelectProfieId].sort((a, b) =>
@@ -106,7 +116,7 @@ function PublicProfile() {
   }, [allSocialSelectProfieId]);
 
   useEffect(() => {
-    console.log("porro::",allPanelSelectProfieId )
+    console.log("porro::", allPanelSelectProfieId);
     if (allPanelSelectProfieId) {
       setAllPanelSort(
         [...allPanelSelectProfieId].sort((a, b) =>
@@ -116,7 +126,8 @@ function PublicProfile() {
     }
   }, [allPanelSelectProfieId]);
 
-  console.log("panelsortttt:",allPanelSort )
+  console.log("panelsortttt:", allPanelSort);
+  
 
   return (
     <>
@@ -125,9 +136,10 @@ function PublicProfile() {
       {selectProfileActive && (
         <PublicSelectProfile
           allProfileSort={allProfileSort}
+          
           parentUrl={slug[0]}
         />
-      )}
+      )}{" "}
       {profilePageActive && (
         <PublicProfilePage
           selectedProfileData={selectedProfileData}

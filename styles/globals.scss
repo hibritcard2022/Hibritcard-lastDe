@@ -1,6 +1,7 @@
 @import "variables.scss";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "../node_modules/animate.css/animate.css";
+@import "react-alice-carousel/lib/scss/alice-carousel.scss";
 
 /* Nuh Mehmet Demirkol scss area START */
 
@@ -19,6 +20,50 @@ body {
     overflow-x: hidden;
 }
 
+.alice-carousel__stage-item {
+    // display: flex !important;
+}
+
+.alice-carousel__stage-item * {
+    text-decoration: none !important;
+}
+
+.alice-carousel__stage-item {
+    margin: 10px !important;
+}
+
+.css-140puxv-MuiTypography-root-MuiDialogTitle-root {
+    text-align: center !important;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height */
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.css-153eyq5-MuiModal-root-MuiDialog-root .MuiDialogActions-root {
+    justify-content: center !important;
+}
+
+.alice-carousel__dots {
+    display: none !important;
+}
+
+.alice-carousel__prev-btn,
+.alice-carousel__next-btn {
+    display: none !important;
+}
+
+// .alice-carousel__wrapper {
+//     text-align: center;
+//     margin-bottom: 20px;
+//     background: red;
+// }
+// .alice-carousel__wrapper ul li a {
+//     background: #FFF;
+// }
 * {
     outline: none;
     box-shadow: none;
@@ -84,11 +129,35 @@ body {
     font-size: 14px;
 }
 
+.profile-save-buttonn {
+    border-radius: 14px;
+    // background-color: rgb(255, 255, 255);
+    background-color: #8b8dff;
+    // color: #d9d9d9;
+    color: rgb(255, 255, 255);
+    // border: 1px solid #d9d9d9;
+    flex: 1;
+    border: none;
+    // border-radius: $primary-radius;
+    padding: 10px;
+    // color: $gray-button-bg-color;
+    text-align: center;
+    //border: 3px solid $gray-button-bg-color;
+    margin: 0 30px 20px 30px;
+    //background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 .profile-save-button {
     border-radius: 14px;
-    background-color: rgb(255, 255, 255);
-    color: #d9d9d9;
-    border: 1px solid #d9d9d9;
+    // background-color: rgb(255, 255, 255);
+    border: none;
+    background-color: #9ed5ff;
+    // color: #d9d9d9;
+    color: rgb(255, 255, 255);
+    // border: 1px solid #d9d9d9;
     flex: 1;
     // border-radius: $primary-radius;
     padding: 10px;
@@ -125,8 +194,10 @@ body {
 
 .secondary-button {
     border-radius: $primary-radius;
-    background-color: $secondary-button-bg-color;
-    color: $secondary-button-text-color;
+    background-color: #8b8dff;
+    // background-color: $secondary-button-bg-color;
+    color: #FFFF;
+    // color: $secondary-button-text-color;
     border: 1px solid $secondary-button-text-color;
 }
 
@@ -150,10 +221,13 @@ body {
 
 .profile-in-button {
     border-radius: $primary-radius;
-    background-color: $primary-gray-bg-color;
-    color: $secondary-black-text-color;
+    // background-color: $primary-gray-bg-color;
+    background-color: #8B8DFF;
+    // color: $secondary-black-text-color;
+    color: #FFF;
     text-decoration: none;
-    border: 2px solid $secondary-black-text-color;
+    // border: 2px solid $secondary-black-text-color;
+    border: none;
     font-weight: bold;
     margin: 10px 0;
     display: flex;
@@ -168,9 +242,12 @@ body {
 
 .profile-in-button-dark {
     border-radius: $primary-radius;
-    background-color: #333;
-    color: $secondary-black-text-color;
-    border: 2px solid $secondary-black-text-color;
+    // background-color: #333;
+    background-color: #8b8dff;
+    // color: $secondary-black-text-color;
+    color: rgb(255, 255, 255);
+    // border: 2px solid $secondary-black-text-color;
+    border: none;
     font-weight: bold;
     margin: 10px 0;
     display: flex;
@@ -188,18 +265,29 @@ body {
     border-radius: $primary-radius;
     background-color: $primary-delete-color;
     color: $primary-button-text-color;
-    border: 1px solid $primary-button-bg-color;
+    // border: 1px solid $primary-button-bg-color;
+    border: none;
     &:hover {
         background-color: $primary-button-bg-hover-color;
         border: 1px solid $primary-button-bg-hover-color;
     }
 }
 
+.account-delete-buttonn {
+    color: #FF8B8B;
+    border: none;
+}
+
+.hesap_Bottom {
+    border-bottom: 1px solid #FF8B8B;
+}
+
 .account-delete-button {
     border-radius: $primary-radius;
     background-color: $primary-delete-color;
     color: $primary-button-text-color;
-    border: 1px solid $primary-button-bg-color;
+    // border: 1px solid $primary-button-bg-color;
+    border: none;
     &:hover {
         background-color: $primary-delete-color-hover;
         border: 1px solid $primary-delete-color-hover;
@@ -212,9 +300,12 @@ body {
 
 .account-exit-button {
     border-radius: $primary-radius;
-    background-color: $primary-bg-color;
-    color: $primary-button-text-color;
-    border: 1px solid $primary-bg-color;
+    // background-color: $primary-bg-color;
+    background-color: #FF8B8B;
+    // color: $primary-button-text-color;
+    color: #FFFFFF;
+    // border: 1px solid $primary-bg-color;
+    border: none;
     &:hover {
         background-color: $primary-bg-color-hover;
         border: 1px solid $primary-bg-color-hover;
@@ -629,7 +720,14 @@ input {
         font-size: 14px;
         display: block;
     }
+    .content-min-link-one {
+        a {
+            color: $primary-link-color;
+            font-size: 14px;
+        }
+    }
     .content-min-link {
+        text-align: center;
         a {
             color: $primary-link-color;
             font-size: 14px;
@@ -2263,15 +2361,21 @@ textarea {
             }
         }
     }
-    .profile-social-items {
-        a {
-            text-decoration: none;
-        }
-        .profile-social-item {
-            background-color: black;
-            i {
-                color: white;
-            }
+    // .profile-social-items {
+    //     a {
+    //         text-decoration: none;
+    //     }
+    //     .profile-social-item {
+    //         background-color: black;
+    //         i {
+    //             color: white;
+    //         }
+    //     }
+    // }
+    .profile-social-item {
+        background-color: black;
+        i {
+            color: white;
         }
     }
     .profile-content {
@@ -2343,16 +2447,28 @@ textarea {
             }
         }
     }
-    .profile-social-items {
-        a {
-            text-decoration: none;
+    // .profile-social-items {
+    //     a {
+    //         text-decoration: none;
+    //     }
+    //     .profile-social-item {
+    //         background-color: #ccc;
+    //         i {
+    //             color: #333;
+    //         }
+    //     }
+    // }
+    .profile-social-item {
+        background-color: #ccc;
+        i {
+            color: #333;
         }
-        .profile-social-item {
-            background-color: #ccc;
-            i {
-                color: #333;
-            }
-        }
+    }
+    .profile-social-item a {
+        text-decoration: none !important;
+    }
+    .alice-carousel__stage-item * {
+        text-decoration: none !important;
     }
     .profile-content {
         .profile-dropdown {
@@ -2413,8 +2529,8 @@ textarea {
     .header-gradient {}
     .header-image {
         img {
-            border-bottom-left-radius: $primary-radius;
-            border-bottom-right-radius: $primary-radius;
+            // border-bottom-left-radius: $primary-radius;
+            // border-bottom-right-radius: $primary-radius;
             width: 100%;
             height: 200px;
             object-fit: cover;
@@ -2473,23 +2589,36 @@ textarea {
             }
         }
     }
-    .profile-social-items {
+    // .profile-social-items {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     padding: 40px 0;
+    //     .profile-social-item {
+    //         display: flex;
+    //         justify-content: center;
+    //         align-items: center;
+    //         border-radius: 100%;
+    //         width: 40px;
+    //         height: 40px;
+    //         margin: 0 5px;
+    //         cursor: pointer;
+    //         i {
+    //             font-size: 20px;
+    //         }
+    //     }
+    // }
+    .profile-social-item {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 40px 0;
-        .profile-social-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 100%;
-            width: 40px;
-            height: 40px;
-            margin: 0 5px;
-            cursor: pointer;
-            i {
-                font-size: 20px;
-            }
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        margin: 0 5px;
+        cursor: pointer;
+        i {
+            font-size: 20px;
         }
     }
     .profile-content {
@@ -2591,6 +2720,7 @@ textarea {
                             }
                             span {
                                 color: $secondary-gray-text-color;
+                                font-size: 15px;
                             }
                             p {
                                 color: $secondary-gray-text-color;
@@ -3346,11 +3476,15 @@ $breakpoint-phone: 1024px;
             min-width: 90%;
         }
     }
+    .profileName {
+        // width: 80px;
+        // padding: 10px;
+    }
     .header {
         .hibrit-profile {
             flex: 1;
             padding: 0;
-            padding-left: 20px;
+            padding-left: 13px;
             margin: 0;
             width: 60px;
             img {}
@@ -3574,6 +3708,45 @@ $breakpoint-phone: 1024px;
     user-select: none;
 }
 
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    background-color: #f5f5f5 !important;
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 15.5px 14px;
+}
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input:focus {
+    outline: 0;
+    border: none;
+}
+
+.css-ypiqx9-MuiDialogContent-root {
+    padding: 0px 24px 20px 24px !important;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    font-family: "Montserrat";
+    outline: none;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 16px;
+    color: #000000 !important;
+    display: table;
+    margin: 0;
+    padding: 16px 18px;
+    background-color: #f5f5f5;
+    font-size: 14px;
+    border: none;
+    border-radius: 14px !important;
+    -webkit-border-radius: 14px !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    margin: 10px 0;
+    min-width: 0;
+}
+
 input#number {
     text-align: center;
     border-radius: 0px !important;
@@ -3640,6 +3813,20 @@ input[type=number]::-webkit-outer-spin-button {
     ;
     border-radius: var(--border-radius);
     box-sizing: border-box;
+}
+
+.socialInput {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px !important;
+    -webkit-border-top-left-radius: 0px !important;
+}
+
+.socialInput:focus {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px !important;
+    -webkit-border-top-left-radius: 0px !important;
 }
 
 .radio label::before {

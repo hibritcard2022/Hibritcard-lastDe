@@ -36,15 +36,19 @@ const SortableItem = SortableElement((props) => {
     const { value: item } = props;
     console.log(props);
     async function profileDelete() {
-        if (deleteTagController.value == selectedEditProfile.profileTag) {
+
+
+        // if (deleteTagController.value == selectedEditProfile.profileTag) {
+
             await dispatch(deleteProfileAsync(selectedEditProfile.profileId));
             await dispatch(getUserAsync());
             setDeletePopup(false);
             setDeleteTagController({ value: "", error: false });
-        }
-        else {
-            setDeleteTagController(v => ({ ...v, error: true }));
-        }
+
+        // }
+        // else {
+        //     setDeleteTagController(v => ({ ...v, error: true }));
+        // }
 
 
     }
@@ -60,26 +64,114 @@ const SortableItem = SortableElement((props) => {
                     <div onClick={() => setDeletePopup(false)} className='popup-top'></div>
                     <div className='popup'>
                         <div onClick={() => setDeletePopup(false)} className='close-button'>
-                            <i className="fa-solid fa-xmark"></i>
+                            <i className="fa-solid fa-xmark" style={{
+                                    color:"#D9D9D9"
+                                }}></i>
                         </div>
                         <div className='header-text'>
                             Profili Sil
                         </div>
-                        <div className='description-text'>
-                            Profil etiketini yazınız  "{selectedEditProfile && <span style={{ color: "red" }}>{selectedEditProfile.profileTag}</span>}"
-                        </div>
-                        <div className='popup-input '>
+
+
+                        {/* NEW İMPORTED */}
+
+                        <div className="panel-inner-content">
+                                <div
+                                  className="panel-inner-content-info"
+                                  style={{ textAlign: "center",
+                                  fontFamily: 'Montserrat',
+                                  fontStyle: "normal",
+                                  fontWeight: "400",
+                                  fontSize: "11px",
+                                  lineHeight: "13px",
+                                  textAlign: "center",
+                                marginBottom:"20px" }}
+
+                                >
+                                  Silmek istediğinizden emin misiniz ?
+                                </div>{" "}
+                                <div className="yes-no-buttons">
+
+
+                                <div
+                                    className="global-button yes-button"
+                                    //onClick={delteContactData}
+                                    onClick={() => profileDelete()}
+
+                                    style={{
+                                        fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                    }}
+                                    
+                                  >
+                                    Evet{" "}
+                                  </div>
+
+
+                                 
+                                  <div className="yes-no-space "> </div>{" "}
+                                
+
+                                  <div
+                                    className="global-button no-button"
+                                    onClick={() => setDeletePopup(false)}
+
+                                    style={{
+                                        fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                    }}
+
+                                  >
+                                    Hayır
+                                  </div>
+                                </div>{" "}
+                              </div>
+
+                              {/* END OF NEW iMPORTED */}
+
+
+
+
+
+
+
+                        {/* <div className='description-text'>
+                          Profil silmek istediğinizden Emin misiniz?   */}
+                          {/* "{selectedEditProfile && <span style={{ color: "red" }}>{selectedEditProfile.profileTag}</span>}" */}
+
+                        {/* </div> */}
+
+
+                        {/* <div className='popup-input '>
+
                             <div className="content-input"><input value={deleteTagController.value} onChange={(e) => setDeleteTagController(v => ({ ...v, value: e.target.value, error: false }))} type="text" placeholder="Porfil Etiketi" /></div>
-                        </div>
-                        <div className='description-text'>
+
+                        </div> */}
+
+
+                        {/* <div className='description-text'>
                             {deleteTagController.error && <div style={{
+
                                 marginBottom: "20px",
                                 color: "red",
+
                             }}>Lütfen profil etiketini doğru giriniz.</div>}
-                        </div>
-                        <div className='popup-button' >
+                        </div> */}
+
+                        {/* <div className='popup-button' >
                             <button onClick={() => profileDelete()} className='profile-save-button'>Profili Sil</button>
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>
@@ -285,7 +377,7 @@ function SelectProfile() {
                         </div>
 
                         <div className='popup-button' onClick={() => newProfileAdd()}>
-                            <button className='profile-save-button'>Profil Ekle</button>
+                            <button className='profile-save-buttonn'>Profil Ekle</button>
                         </div>
 
                     </div>

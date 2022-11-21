@@ -173,7 +173,9 @@ function Analysis() {
         <div className="main-content ">
           <div className="main-container">
             <div className="main-card-global">
-              <div className="main-card">
+              <div className="main-card" style={{
+                 marginTop:"15px"
+              }}>
                 <div className="main-card-header">
                  HibritCard Kullanımı{" "}
                 </div>{" "}

@@ -32,12 +32,20 @@ export const newSocialUrlAddAsync = createAsyncThunk("social/newSocialUrlAddAsyn
 
 
     const res = await axios.post(`https://us-central1-hibritardpro.cloudfunctions.net/api/newSocialUrlAdd/${data.profileId}`, data.value, {
+
             headers: {
                 'Authorization': localStorage.getItem("GZIToken")
             }
+
         })
         .then(res => {
+
+
+
             console.log("get social success");
+
+            console.log("NewAllo", res)
+
             return res;
         })
 
@@ -109,6 +117,8 @@ const socialSlice = createSlice({
             socialList: [],
             status: "",
             errors: null,
+            NewAddSocialMediaInfo: "",
+            NewAddUrlsocialstatus: []
         },
         reducers: {
             /* selectedProfile: (state, action) => {
@@ -137,11 +147,12 @@ const socialSlice = createSlice({
             //newSocialUrlAddAsync
             [newSocialUrlAddAsync.pending]: (state, action) => {
 
-                state.status = "loading";
+                state.NewAddUrlsocialstatus = "loading";
             },
             [newSocialUrlAddAsync.fulfilled]: (state, action) => {
 
-                state.status = "success";
+                state.NewAddSocialMediaInfo = action.payload.data ? action.payload.data.socialMediaPanelId : "";
+                state.NewAddUrlsocialstatus = "success";
             },
             //deleteSocialMediaofProfileAsync
             [deleteSocialMediaofProfileAsync.pending]: (state, action) => {

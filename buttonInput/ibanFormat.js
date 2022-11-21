@@ -5,10 +5,13 @@ export function format(iban) {
         return ''
     }
 
+
     const cleanIban = iban
         .replace(/\s\s+/g, ' ')
         .replace(/[^0-9a-zA-Z]/gi, '')
         .toUpperCase()
+
+
 
     const parts = []
 

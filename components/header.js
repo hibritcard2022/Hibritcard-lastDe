@@ -63,9 +63,9 @@ function Header() {
 
         try {
              navigator.share( {
-                title: 'HibritCard Paylaş',
-                text: 'Learn web development on MDN!',
-                url: 'https://panel.hibritcard.com/#/'
+                title: 'HibritCard-HibritMedya',
+                text: 'Kopyala!',
+                url: location.href
               });
             //resultPara.textContent = 'MDN shared successfully';
           }catch (err) {
@@ -115,7 +115,27 @@ function Header() {
 
                         <Link href="/select-profile">
                             <a>
-                                <div className='bg'></div>
+                                <div className='bg'>
+
+                                <div style={{
+                             marginTop: "45px",
+                            // fontFamily: 'Montserrat',
+                            // fontStyle: "normal",
+                            // fontWeight: 700,
+                            // fontSize: "12px",
+                            lineHeight: "15px",
+                            // position:"absolute",
+                            textAlign:"center",
+                            fontFamily: 'Montserrat',
+                            fontStyle: "normal",
+                            fontSize: "12px"
+
+                        }}  className="profileName" >
+                            {
+                                selectedProfilData && selectedProfilData.profileTag
+                            }
+                        </div>
+                                </div>
 
                                 <ImageLoader
                                     src={selectedProfilData && selectedProfilData.profileUrl}
@@ -127,24 +147,23 @@ function Header() {
                             </a>
                         </Link>
 
+
+                       
+
                         </div>
 
-                        <div style={{
-                            marginTop: "48px",
-                            fontFamily: 'Montserrat',
-                            fontStyle: "normal",
-                            fontWeight: 700,
-                            fontSize: "11px",
-                            lineHeight: "13px"
-                        }}>
-                            {
-                                selectedProfilData && selectedProfilData.profileTag
-                            }
-                        </div>
+                        
 
                         
                        
                     </div>
+
+
+                 
+
+
+
+
                     <div className='header-logo'>
                         <img src='/images/hibritcard-logo.svg' />
                     </div>
@@ -155,6 +174,7 @@ function Header() {
 
 
                         <div className='icon-item' 
+
                         onClick={()=>{ 
                             console.log("panelburada");
                             setnotiCount((notiCount)=>notiCount + 1)

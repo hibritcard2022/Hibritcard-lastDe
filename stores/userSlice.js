@@ -49,12 +49,14 @@ export const getPanelAsync = createAsyncThunk("profile/getPanelAsync", async(pro
 
 
 export const updateProfileAsync = createAsyncThunk("profile/updateProfileAsync", async(data) => {
-    console.log(data);
+
+    console.log("sonKontrol::", data);
+
     const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/updateProfile/${data.profileId}`, {
 
             profileEmail: data.profileEmail,
             phoneNumber: data.phoneNumber,
-            websiteUrlLink: data.websiteUrlLink,
+            websiteUrlLink: "",
             profilDescription: data.profilDescription,
             publicName: data.publicName,
             publicSurName: data.publicSurName,
@@ -66,6 +68,7 @@ export const updateProfileAsync = createAsyncThunk("profile/updateProfileAsync",
             placeOfSocialMediaPosition: data.placeOfSocialMediaPosition,
             profileTheme: data.profileTheme,
             orderOfProfile: data.orderOfProfile,
+
         }, {
             headers: {
                 'Authorization': localStorage.getItem("GZIToken")
@@ -153,6 +156,38 @@ export const changegePasswordAsync = createAsyncThunk("profile/changegePasswordA
     return res;
 
 });
+
+///CHANGE Email from
+
+export const changegeEmailAsync = createAsyncThunk("profile/changegeEmailAsync", async(data) => {
+
+    const res = await axios.post(`https://us-central1-hibritardpro.cloudfunctions.net/api/changegeEmailofUser`, data, {
+
+            headers: {
+                'Authorization': localStorage.getItem("GZIToken")
+            }
+        })
+        .then(res => {
+            console.log("başarılı : ");
+            console.log("okkseeert", res);
+            return res;
+        })
+
+
+    .catch(err => {
+
+        console.log("hatalı : ");
+        console.log("errorBuu", err.response.data.Fail);
+
+        return err;
+    });
+
+    return res;
+
+});
+
+
+
 
 export const changesocialPositionAsync = createAsyncThunk("profile/changesocialPositionAsync", async(data) => {
 
@@ -653,6 +688,37 @@ export const updateSocialPartAlways = createAsyncThunk("profile/updateSocialPart
 
 })
 
+//update social Media from url link panel
+
+export const updateSocialfromUrlPanel = createAsyncThunk("profile/updateSocialfromUrlPanel", async(data) => {
+
+    console.log("fdsdfdsfdsf", data);
+
+    const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/updateSocialfromUrlPanel`, {
+
+            socialMediaId: data.socialMediaId,
+            socialUrlLink: data.socialUrlLink
+
+        }, {
+            headers: {
+                'Authorization': localStorage.getItem("GZIToken")
+            }
+        })
+        .then(res => {
+            console.log("başarılı : ");
+            console.log(res);
+            return res;
+        })
+        .catch(err => {
+            console.log("hatalı :", err);
+            console.log(err);
+            return err;
+        });
+
+    return res;
+
+})
+
 
 // update Only bank Arrayt from here
 
@@ -698,7 +764,7 @@ export const updateOnlyBankDataArrayInfoAsync = createAsyncThunk("profile/update
 
 export const updateProfileUrlDataArrayInfoAsync = createAsyncThunk("profile/updateProfileUrlDataArrayInfoAsync", async(data) => {
 
-    console.log(data);
+    console.log("dataaHere", data);
 
     const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/updateProfileUrlLinksDataOnly/${data.panelProfileUrlDataId}`, {
 
@@ -708,7 +774,8 @@ export const updateProfileUrlDataArrayInfoAsync = createAsyncThunk("profile/upda
             socialUrlLink: data.socialUrlLink,
             socialtype: data.socialtype,
             statuMode: data.statuMode,
-            placeholder: data.placeholder
+            placeholder: data.placeholder,
+            socialMediaLinkMatch: data.socialMediaLinkMatch
 
 
         }, {
@@ -1815,35 +1882,41 @@ export const updatePanelTitleFileUploadAsync = createAsyncThunk("profile/updateP
 
 
 
+
+
+
 //delete Phone array from here
 export const deletePhoneArrayOnly = createAsyncThunk("profile/deletePhoneArrayOnly", async(data) => {
 
-    console.log("hereDtata::", data);
+    const config = {
+        headers: {
+            "Authorization": localStorage.getItem("GZIToken"),
+        },
+    }
 
-    console.log("dataConsole::")
 
-    const res = await axios.delete(`https://us-central1-hibritardpro.cloudfunctions.net/api/deleteArrayPhone/${data.conatctDataId}`, {
+    console.log("dataatBu", data)
+    console.log("datataphonedefault", data.existDefaultPhone)
+    console.log("datataNumber", data.existPhoneNumber)
+
+
+    const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/deleteArrayPhone/${data.conatctDataId}`, {
 
         existPhoneNumber: data.existPhoneNumber,
         existDefaultPhone: data.existDefaultPhone
 
     }, {
         headers: {
-
             'Authorization': localStorage.getItem("GZIToken")
-
         }
-
     }).then(res => {
 
-        console.log("succesfully Updated")
+        console.log("succesfullyUpdated")
+
         return res;
     }).catch(err => {
 
-        console.log("hatalı :", err.response.data.Hata);
-
-
-
+        console.log("hatalı :", err);
         return err;
     });
 
@@ -1856,7 +1929,7 @@ export const deleteEmailArrayOnly = createAsyncThunk("profile/deleteEmailArrayOn
 
     console.log("dataaEmail", data);
 
-    const res = await axios.delete(`https://us-central1-hibritardpro.cloudfunctions.net/api/deleteArrayEmail/${data.conatctDataId}`, {
+    const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/deleteArrayEmail/${data.conatctDataId}`, {
             existEmail: data.existEmail,
             existDefaultEmail: data.existDefaultEmail,
         }, {
@@ -1885,6 +1958,111 @@ export const deleteEmailArrayOnly = createAsyncThunk("profile/deleteEmailArrayOn
 
 
 
+//delete File ArrayOnly from here
+export const deleteFileArrayOnlyUpload = createAsyncThunk("profile/deleteFileArrayOnlyUpload", async(data) => {
+
+    console.log("dataaFile", data);
+
+    const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/deleteArrayFileUpload/${data.belgeDocumentId}`, {
+
+            existUrlLinkOfFileUpload: data.existUrlLinkOfFileUpload
+
+        }, {
+            headers: {
+                'Authorization': localStorage.getItem("GZIToken")
+            }
+        })
+        .then(res => {
+            console.log("başarılıDeleteEmailArray: ");
+            return res;
+        })
+        .catch(err => {
+            console.log("hataliEmailArray:", err);
+            console.log(err);
+            return err;
+        });
+
+    return res;
+})
+
+
+///delete Bank ArrayOnly from here Element
+export const deleteBankElementArrayOnlyUpload = createAsyncThunk("profile/deleteBankElementArrayOnlyUpload", async(data) => {
+
+    console.log("datar", data)
+
+
+    const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/deleteArrayBankOnlyArray/${data.bankDataId}`, {
+
+            exisBankIban: data.exisBankIban !== "" ? data.exisBankIban : "",
+            existAccountOwner: data.existAccountOwner !== "" ? data.existAccountOwner : "",
+            existbankNumber: data.existbankNumber !== "" ? data.existbankNumber : "",
+            existbankName: data.existbankName !== "" ? data.existbankName : "",
+            existbankStation: data.existbankStation !== "" ? data.existbankStation : ""
+
+        }, {
+            headers: {
+                'Authorization': localStorage.getItem("GZIToken")
+            }
+        })
+        .then(res => {
+            console.log("başarılıDeleteEmailArray: ");
+            return res;
+        })
+        .catch(err => {
+            console.log("hatalibankaArray:", err);
+            console.log(err);
+            return err;
+        });
+
+    return res;
+})
+
+
+///delete PROFİLE uRL FORM HERE
+
+export const deleteProfileUrlLinkElementArrayOnlyUpload = createAsyncThunk("profile/deleteProfileUrlLinkElementArrayOnlyUpload", async(data) => {
+
+    console.log("datar", data)
+
+
+    const res = await axios.put(`https://us-central1-hibritardpro.cloudfunctions.net/api/deleteArrayProfileUrlOnlyArray/${data.panelProfileUrlDataId}`, {
+
+            exiseMail: data.exiseMail,
+            existgeneralUserId: data.existgeneralUserId,
+            existplaceholder: data.existplaceholder,
+            existsocialOrder: data.existsocialOrder,
+            existsocialUrlHead: data.existsocialUrlHead,
+            socialUrlLink: data.socialUrlLink,
+            socialtype: data.socialtype,
+            existstatuMode: data.existstatuMode,
+            socialMediaLinkMatch: data.socialMediaLinkMatch
+
+
+        }, {
+            headers: {
+                'Authorization': localStorage.getItem("GZIToken")
+            }
+        })
+        .then(res => {
+            console.log("başarılıDeleteEmailArray: ");
+            return res;
+        })
+        .catch(err => {
+            console.log("hatalibankaArray:", err);
+            console.log(err);
+            return err;
+        });
+
+    return res;
+})
+
+
+
+
+
+
+
 
 const userSlice = createSlice({
     name: "profile",
@@ -1898,6 +2076,8 @@ const userSlice = createSlice({
         errors: null,
         passwordChangeError: null,
         passwordSuccess: false,
+        EmailChangeSuccess: false,
+        EmailExistAlready: false,
         forgetEMailError: null,
         forgetEMailSuccess: false,
         verificationCodeError: false,
@@ -1909,17 +2089,21 @@ const userSlice = createSlice({
         editTitlepanelStatus: "",
         deletephoneElementStatus: "",
         deleteEmailElementStatus: "",
+        deleteFileUploadElementStatus: "",
+        deletebankAarrayElementStatus: "",
         postContactStatus: "",
         postFaturaStatus: "",
         postPanelProfilUrlStatus: "",
         postPanelSocialUrlStatus: "",
         getAllpanelStatus: "",
         postbanStatus: "",
+        onlyFileUploadStatus: "",
         documentstatus: "",
         uploadFilestatus: "",
         uploadFilestatusFirst: "",
         updateOnlyPhoneStatus: "",
         updatesocialStatus: "",
+        updatesocialurlStatus: "",
         updateOnlyBankDataStatus: "",
         updateOnlyEmailStatus: "",
 
@@ -2058,11 +2242,13 @@ const userSlice = createSlice({
 
             state.status = "success";
         },
+
         //changegePasswordAsync
         [changegePasswordAsync.pending]: (state, action) => {
 
             state.status = "loading";
         },
+
         [changegePasswordAsync.fulfilled]: (state, action) => {
             if (localStorage.getItem("GZIToken")) {
 
@@ -2082,6 +2268,43 @@ const userSlice = createSlice({
                 state.status = "success";
             }
         },
+
+        //change Email from there  changegeEmailAsync
+
+        [changegeEmailAsync.pending]: (state, action) => {
+
+            state.status = "loading";
+        },
+
+        [changegeEmailAsync.fulfilled]: (state, action) => {
+
+            if (localStorage.getItem("GZIToken")) {
+
+                console.log(action.payload.response);
+
+                // state.passwordChangeError = {
+                //     passwordError: action.payload.data && action.payload.data.Mesaj == "This password does'nt exist!!" ? true : false,
+                //     passwordNotMatch: action.payload.response && action.payload.response.data && action.payload.response.data.Mesaj == "Password are not conformed!!" ? true : false,
+                //     minCountCharacter: action.payload.response && action.payload.response.data && action.payload.response.data.Fail ? true : false,
+
+                // };
+
+
+
+                state.EmailChangeSuccess = action.payload.data && action.payload.data.Success ? true : false;
+                state.EmailExistAlready = action.payload.response && action.payload.response.data.Fail ? true : false;
+
+                // console.log("actionBAKK", action)
+
+
+                console.log(state.passwordChangeError);
+
+                state.status = "success";
+            }
+        },
+
+
+
         //resetPasswordForgetAsync
         [resetPasswordForgetAsync.pending]: (state, action) => {
 
@@ -2168,6 +2391,17 @@ const userSlice = createSlice({
         [updateBankInfoAsync.fulfilled]: (state, action) => {
             state.status = "success";
         },
+        // updateFaturaDataInfoAsync
+
+        [updateFaturaDataInfoAsync.pending]: (state, action) => {
+            state.status = "loading";
+
+        },
+        [updateFaturaDataInfoAsync.fulfilled]: (state, action) => {
+            state.status = "success";
+
+        },
+
 
         //update Profile URL FROM HERE   
 
@@ -2213,6 +2447,15 @@ const userSlice = createSlice({
         },
         [updateSocialPartAlways.fulfilled]: (state, action) => {
             state.updatesocialStatus = "success";
+        },
+
+
+
+        [updateSocialfromUrlPanel.pending]: (state, action) => {
+            state.updatesocialurlStatus = "loading";
+        },
+        [updateSocialfromUrlPanel.fulfilled]: (state, action) => {
+            state.updatesocialurlStatus = "success";
         },
 
 
@@ -2288,10 +2531,12 @@ const userSlice = createSlice({
 
         [fileUploadChangeAsync.pending]: (state, action) => {
             state.status = "loading";
+            state.onlyFileUploadStatus = "loading";
         },
         [fileUploadChangeAsync.fulfilled]: (state, action) => {
 
             state.status = "success";
+            state.onlyFileUploadStatus = "success";
         },
 
         //update ststatus Mode  updatBankStatusModeAsync
@@ -2519,6 +2764,33 @@ const userSlice = createSlice({
             state.deleteEmailElementStatus = "success";
         },
 
+
+
+        [deleteFileArrayOnlyUpload.pending]: (state, action) => {
+            state.deleteFileUploadElementStatus = "loading";
+        },
+        [deleteFileArrayOnlyUpload.fulfilled]: (state, action) => {
+            state.deleteFileUploadElementStatus = "success";
+        },
+
+
+
+
+        [deleteBankElementArrayOnlyUpload.pending]: (state, action) => {
+            state.deletebankAarrayElementStatus = "loading";
+        },
+        [deleteBankElementArrayOnlyUpload.fulfilled]: (state, action) => {
+            state.deletebankAarrayElementStatus = "success";
+        },
+
+
+
+        [deleteProfileUrlLinkElementArrayOnlyUpload.pending]: (state, action) => {
+            state.deletebankAarrayElementStatus = "loading";
+        },
+        [deleteProfileUrlLinkElementArrayOnlyUpload.fulfilled]: (state, action) => {
+            state.deletebankAarrayElementStatus = "success";
+        },
 
 
     }

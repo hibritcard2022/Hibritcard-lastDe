@@ -17,7 +17,7 @@ function HeaderMenu({ id }) {
 <Link href={`/view/${selectedProfileId}`}>
                 <a className={'menu-item ' + (router.pathname.startsWith("/view") ? "active" : "")} >
                     <div className={'icon view-icon-' + (router.pathname.startsWith("/view") ? "active" : "deactive")}></div>
-                    <div className='text'>Görünüm</div>
+                    <div className='text'>Profile</div>
                 </a>
             </Link>
 

@@ -88,7 +88,7 @@ function View() {
                 setCreateProfileImageURL(URL.createObjectURL(image));
             }
             else {
-                setImagaErorText("Dosya boyutu çok yüksek lütfen yeni bir fotoğraf yükleyiniz.");
+                setImagaErorText("Dosya 2MB' ten büyüktür!");
             }
         }
     };
@@ -121,7 +121,7 @@ function View() {
 
             }
             else {
-                setImagaErorText("Dosya boyutu çok yüksek lütfen yeni bir fotoğraf yükleyiniz.");
+                setImagaErorText("Dosya 2MB' ten büyüktür!");
             }
 
         }
@@ -145,20 +145,23 @@ function View() {
 
     function save() {
 
-        if (!profileInputErrors.emailFormatError) {
+        // if (!profileInputErrors.emailFormatError) {
 
             dispatch(updateProfileAsync(profileData));
+            console.log("data enter from here", profileData)
+
             if (profileImage) {
                 profileImageUploadToServer();
 
             }
+
             if (profileBGImage) {
                 profileBGImageUploadToServer();
 
             }
 
 
-        }
+        // }
 
         //  console.log(profileData && profileData.placeOfSocialMediaPosition);
 
@@ -278,6 +281,10 @@ function View() {
 
     }
 
+    //check the popup for hibrit Logo Kaldır
+
+    const [checkRight,setcheckRight]= useState(false)
+
 
 
     return (
@@ -290,12 +297,83 @@ function View() {
                         <div onClick={() => setDeletePopup(false)} className='popup-top'></div>
                         <div className='popup'>
                             <div onClick={() => setDeletePopup(false)} className='close-button'>
-                                <i className="fa-solid fa-xmark"></i>
+                                <i className="fa-solid fa-xmark"  style={{
+                                    color:"#D9D9D9"
+                                }}></i>
                             </div>
                             <div className='header-text'>
                                 Profili Sil
                             </div>
-                            <div className='description-text'>
+
+
+                            {/* new imported div */}
+
+                            <div className="panel-inner-content">
+                                <div
+                                  className="panel-inner-content-info"
+                                  style={{ textAlign: "center",
+                                  fontFamily: 'Montserrat',
+                                  fontStyle: "normal",
+                                  fontWeight: "400",
+                                  fontSize: "11px",
+                                  lineHeight: "13px",
+                                  textAlign: "center",
+                                marginBottom:"20px" }}
+                                >
+
+                                  Silmek istediğinizden emin misiniz ?
+
+                                </div>
+
+                                <div className="yes-no-buttons">
+                                  <div
+                                    className="global-button no-button"
+                                    onClick={() => setDeletePopup(false)}
+
+                                    style={{
+                                        fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF",
+backgroundColor:" #D9D9D9"
+                                    }}
+                                  >
+                                    Hayır
+                                  </div>{" "}
+                                  <div className="yes-no-space "> </div>{" "}
+                                  <div
+                                    className="global-button yes-button"
+                                    //onClick={delteContactData}
+                                    onClick={() => profileDelete()}
+                                    style={{
+                                        fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "700",
+fontSize: "13px",
+lineHeight: "16px",
+textAlign: "center",
+color: "#FFFFFF"
+                                    }}
+                                  >
+                                    Evet{" "}
+                                  </div>{" "}
+                                </div>
+
+                              </div>
+
+                              {/* end of div */}
+
+
+
+
+
+
+
+
+                            {/* <div className='description-text'>
                                 Profil etiketini yazınız  "{profileData && <span style={{ color: "red" }}>{profileData.profileTag}</span>}"
                             </div>
                             <div className='popup-input '>
@@ -309,11 +387,61 @@ function View() {
                             </div>
                             <div className='popup-button' >
                                 <button onClick={() => profileDelete()} className='profile-save-button'>Profili Sil</button>
-                            </div>
+                            </div> */}
 
                         </div>
                     </div>
+
+
                     : ""
+                }
+
+
+                {
+                checkRight=== true ? (
+
+                    <div className='popup-global'>
+                    <div onClick={() => setcheckRight(!checkRight)} className='popup-top'></div>
+                    <div className='popup'>
+                        <div onClick={() => setcheckRight(!checkRight)} className='close-button'>
+                            <i className="fa-solid fa-xmark"  style={{
+                                color:"#D9D9D9"
+                            }}></i>
+                        </div>
+                        <div className='header-text'>
+                            Premium Hesabı
+                        </div>
+
+
+                        {/* new imported div */}
+
+                        <div className="panel-inner-content">
+                            <div
+                              className="panel-inner-content-info"
+                              style={{ textAlign: "center",
+                              fontFamily: 'Montserrat',
+                              fontStyle: "normal",
+                              fontWeight: "400",
+                              fontSize: "11px",
+                              lineHeight: "13px",
+                              textAlign: "center",
+                            marginBottom:"20px" }}
+                            >
+
+                             Yakında Sizlerle.
+
+                            </div>
+
+                          </div>
+
+                         
+
+                    </div>
+                </div>
+
+                ):(
+                    ""
+                )
                 }
 
 
@@ -332,7 +460,9 @@ function View() {
                     <div className='main-container'>
 
                         <div className='main-card-global'>
-                            <div className='main-card'>
+                            <div className='main-card'  style={{
+                                marginTop:"15px"
+                            }}>
                                 <div className='main-card-header'>
                                     {
                                         profileData && profileData.profileTag
@@ -449,13 +579,15 @@ function View() {
 
                                     </div>
 
-                                    
                                 <div className='content-input'>
-                                   
+
                                         {profileData && <>
-                                            <input autocomplete="position" name='position' type="text" value={profileData.position} onChange={(e) => setProfileData((v) => ({ ...v, position: e.target.value }))} placeholder='Profile unvanı'/>
+
+                                            <input autocomplete="position" name='position' type="text" value={profileData.position} onChange={(e) => setProfileData((v) => ({ ...v, position: e.target.value }))} placeholder='Profile Ünvanı'/>
                                             <textarea autocomplete="description" name='description' placeholder='Profil Açıklaması' value={profileData.profilDescription} onChange={(e) => setProfileData((v) => ({ ...v, profilDescription: e.target.value }))}></textarea>
                                         </>}  
+
+
                                 </div>
 
 
@@ -463,7 +595,9 @@ function View() {
                                 </div>
                                 <div className='profile-save-button-global'>
                                     <button onClick={() => save()} className='profile-save-button'>
+
                                         Güncelle
+
                                     </button>
                                 </div>
 
@@ -503,10 +637,14 @@ function View() {
                                     <div className='logo-hidden-text'>Hibrit Card logosunu gizle</div>
                                     <div className='logo-hidden-lock'><div className='lock-text'>Yükselt</div> <div className='lock-icon'><i className="fa-solid fa-lock"></i></div></div>
                                     <div className='logo-hidden-checked'>
-                                        <div className='switch-button '>
-                                            <label className="switch">
-                                                <input type="checkbox" />
+                                        <div className='switch-button'   >
+                                            <label className="switch"  value={checkRight} onChange={()=>setcheckRight(!checkRight)} >
+
+
+                                                <input type="checkbox"   checked={checkRight} />
+                                                
                                                 <span className="slider round"></span>
+
                                             </label>
                                         </div>
                                     </div>
@@ -515,6 +653,8 @@ function View() {
 
                             </div>
                         </div>
+
+
                         <div className='main-card-global'>
                             <div className='main-ads-card'>
 
@@ -527,13 +667,13 @@ function View() {
                                     <p>indirimli</p>
                                 </div>
                                 <div className='main-ads-text'>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+                                    {/* Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. */}
                                 </div>
 
                             </div>
-
-
                         </div>
+
+
                         <div className='main-card-global'>
                             <div className='account-buttons'>
                                 <div onClick={() => setDeletePopup(true)} className='global-button account-delete-button'>

@@ -76,7 +76,8 @@ function SocialMedia() {
 
     useEffect(() => {
         console.log("*********** social list ****************");
-        console.log(socialMediaListSort);
+
+        console.log("allbUneer",socialMediaListSort);
 
         setSocialMediaListSort(socialMediaList != undefined ? [...socialMediaList].sort((a, b) => a.socialOrder - b.socialOrder) : []);
 
@@ -193,197 +194,200 @@ function SocialMedia() {
             {
                 socialMeidaName: "whatsapp",
                 icon: '<i class="fa-brands fa-whatsapp"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "whatsapp" ? true : false)
+
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "whatsapp" ? true : false)
             },
             {
                 socialMeidaName: "telegram",
                 icon: '<i class="fa-brands fa-telegram"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "telegram" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "telegram" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "bip",
                 icon: '<i class="fa-brands fa-bip"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "bip" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "bip" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "instagram",
                 icon: '<i class="fa-brands fa-instagram"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "instagram" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "instagram" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "twitter",
                 icon: '<i class="fa-brands fa-twitter"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "linkedin" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "linkedin" ? true : false) ? true : false
             },
 
             {
                 socialMeidaName: "linkedin",
                 icon: '<i class="fa-brands fa-linkedin "></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "linkedin" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "linkedin" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "facebook",
                 icon: '<i class="fa-brands fa-facebook "></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "facebook" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "facebook" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "youtube",
                 icon: '<i class="fa-brands fa-youtube"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "youtube" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "youtube" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "discord",
                 icon: '<i class="fa-brands fa-discord"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "discord" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "discord" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "dribbble",
                 icon: '<i class="fa-brands fa-dribbble"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "dribbble" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "dribbble" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "vimeo",
                 icon: '<i class="fa-brands fa-vimeo"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "vimeo" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "vimeo" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "ello",
                 icon: '<i class="fa-brands fa-ello"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "ello" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "ello" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "github",
                 icon: '<i class="fa-brands fa-github"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "github" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "github" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "hangouts",
                 icon: '<i class="fa-brands fa-hangouts"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "hangouts" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "hangouts" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "icbc",
                 icon: '<i class="fa-brands fa-icbc"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "icbc" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "icbc" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "icq",
                 icon: '<i class="fa-brands fa-icq"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "icq" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "icq" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "kikmessenger",
                 icon: '<i class="fa-brands fa-kikmessenger"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "kikmessenger" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "kikmessenger" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "twitch",
                 icon: '<i class="fa-brands fa-twitch"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "twitch" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "twitch" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "medium",
                 icon: '<i class="fa-brands fa-medium"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "medium" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "medium" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "nimotv",
                 icon: '<i class="fa-brands fa-nimotv"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "nimotv" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "nimotv" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "periscope",
                 icon: '<i class="fa-brands fa-periscope"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "periscope" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "periscope" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "dailymotion",
                 icon: '<i class="fa-brands fa-dailymotion"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "dailymotion" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "dailymotion" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "wechat",
                 icon: '<i class="fa-brands fa-weixin"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "wechat" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "wechat" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "qqtile",
                 icon: '<i class="fa-brands fa-qq"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "qqtile" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "qqtile" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "sineweibo",
                 icon: '<i class="fa-brands fa-sineweibo"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "sineweibo" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "sineweibo" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "dlive",
                 icon: '<i class="fa-brands fa-dlive"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "dlive" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "dlive" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "pinterest",
                 icon: '<i class="fa-brands fa-pinterest"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "pinterest" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "pinterest" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "reddit",
                 icon: '<i class="fa-brands fa-reddit"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "reddit" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "reddit" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "behance",
                 icon: '<i class="fa-brands fa-behance"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "behance" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "behance" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "swarm",
                 icon: '<i class="fa-brands fa-swarm"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "swarm" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "swarm" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "signal",
                 icon: '<i class="fa-brands fa-signal"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "signal" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "signal" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "yaya",
                 icon: '<i class="fa-brands fa-yaya"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "yaya" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "yaya" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "c2",
                 icon: '<i class="fa-brands fa-c2"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "c2" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "c2" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "tango",
                 icon: '<i class="fa-brands fa-tango"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "tango" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "tango" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "vero",
                 icon: '<i class="fa-brands fa-vero"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "vero" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "vero" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "zoom",
                 icon: '<i class="fa-brands fa-zoom"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "zoom" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "zoom" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "viber",
                 icon: '<i class="fa-brands fa-viber"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "viber" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "viber" ? true : false) ? true : false
             },
             {
                 socialMeidaName: "teams",
                 icon: '<i class="fa-brands fa-teams"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "teams" ? true : false) ? true : false
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "teams" ? true : false) ? true : false
             }, {
                 socialMeidaName: "snapchat",
                 icon: '<i class="fa-brands fa-snapchat"></i>',
-                socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "snapchat" ? true : false) ? true : false
+                
+                // socialMediaAdded: socialMediaListSort.find(v => v.socialtype == "snapchat" ? true : false) ? true : false
+
             },
         ]);
 
@@ -394,6 +398,8 @@ function SocialMedia() {
 
     useEffect(() => {
         setAllSocialMediaFilter(allSocialMedia);
+
+        console.log("AllSsocial",allSocialMedia)
     }, [allSocialMedia])
 
     async function socialMediaStatusUpdate(id, name, socialUrlLink, status, order) {
@@ -436,7 +442,7 @@ function SocialMedia() {
                         </div>
                         <div className='popup-input '>
                             <div className="content-input">
-                                <label htmlFor="nextInput" className='prev-input'>{`https://www.${selectedSocialMedia.name}.com/`}</label>
+                                <label htmlFor="nextInput" className='prev-input'>{selectedSocialMedia.name==="linkedin" ? "https://linkedin.com/in/" : selectedSocialMedia.name==="whatsapp" ? "https://wa.me/" : "https://"+ selectedSocialMedia.name+".com/"  }</label>
                                 <input id='nextInput' value={socialMediaInput.socialUrlLink} onChange={(e) => setSocialMediaInput(v => ({ ...v, socialUrlLink: e.target.value }))} className='next-input' type="text" />
                             </div>
                         </div>
@@ -470,6 +476,7 @@ function SocialMedia() {
                     </div>
                 </div>
                 : ""}
+
             {socialAdd ?
                 <div className='popup-global'>
                     <div onClick={() => setSocialAdd(false)} className='popup-top'></div>
@@ -520,10 +527,15 @@ function SocialMedia() {
                             {selectedSocialMedia.name}  hesabının URL adresini
                             alt kısıma eklemelisin.
                         </div>
-                        <div className='popup-input '>
+                        <div className='popup-input'>
                             <div className="content-input">
-                                <label htmlFor="nextInput" className='prev-input'>{`https://www.${selectedSocialMedia.name}.com/`}</label>
-                                <input id='nextInput' value={socialMediaInput.socialUrlLink} onChange={(e) => setSocialMediaInput(v => ({ ...v, socialUrlLink: e.target.value }))} className='next-input' type="text" />
+
+                            <label htmlFor="nextInput" className='prev-input'>{selectedSocialMedia.name==="linkedin" ? "https://linkedin.com/in/" : selectedSocialMedia.name==="whatsapp" ? "https://wa.me/" : "https://"+ selectedSocialMedia.name+".com/"  }</label>
+
+                                {/* <label htmlFor="nextInput" className='prev-input'>{`https://www.${selectedSocialMedia.name}.com/`}</label> */}
+                                
+                                <input id='nextInput' value={socialMediaInput.socialUrlLink} onChange={(e) => setSocialMediaInput(v => ({ ...v, socialUrlLink: e.target.value }))} className='next-input socialInput' type="text" 
+                                />
 
                             </div>
 
@@ -547,7 +559,7 @@ function SocialMedia() {
 
 
                             <div className='main-card-text'>
-                                Sosyal medya hesaplarınızı profilinize ayrıca buradan da ekleyebilirsiniz.
+                            Sosyal Medya Hesaplarınızı Ekleyin
                             </div>
                             <div onClick={() => setSocialAdd(true)} className='social-link-add-button'>
                                 Hesap Ekle
@@ -568,7 +580,212 @@ function SocialMedia() {
                                         </div>
                                         <button className='right'>
                                             <div className='social-icon'>
-                                                <i className={`fa-brands fa-${value.socialtype}`}></i>
+                                                {
+                                                    value.socialtype==="bip" ? (
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            bip
+                                                        </div>
+                                                    ): value.socialtype==="hangouts" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            Hangouts
+                                                        </div>
+
+                                                    ) : value.socialtype==="icbc" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            icbc
+                                                        </div>
+
+                                                    ) : value.socialtype==="web" ?(
+
+<i class="fa fa-dribbble"></i>
+
+                                                    ):   value.socialtype==="icq" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            icq
+                                                        </div>
+
+                                                    ):  value.socialtype==="kikmessenger" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            kikM
+                                                        </div>
+
+                                                    ):   value.socialtype==="nimotv" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            nimotv
+                                                        </div>
+
+                                                    ):   value.socialtype==="sineweibo" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            sineweibo
+                                                        </div>
+
+                                                    ):   value.socialtype==="dlive" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            dlive
+                                                        </div>
+
+                                                    ) :  value.socialtype==="swarm" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            swarm
+                                                        </div>
+
+                                                    ) : value.socialtype==="signal" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            signal
+                                                        </div>
+
+                                                    ) : value.socialtype==="yaya" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            yaya
+                                                        </div>
+
+                                                    ) :  value.socialtype==="vero" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            vero
+                                                        </div>
+
+                                                    ) :  value.socialtype==="zoom" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            zoom
+                                                        </div>
+
+                                                    ) :   value.socialtype==="teams" ? (
+
+                                                        <div style={{
+                                                            color:"#FFF",
+                                                            fontFamily: 'Montserrat',
+fontStyle: "normal",
+fontWeight: "400",
+fontSize: "11px",
+lineHeight: "13px",
+textAlign: "justify",
+                                                        }}>
+                                                            teams
+                                                        </div>
+
+                                                    ) : (
+
+                                                        <i className={`fa-brands fa-${value.socialtype}`}></i>
+
+                                                    )
+                                                }
+                                                
                                             </div>
                                             <div className='social-text '>
                                                 {value.socialUrlLink}
@@ -594,13 +811,13 @@ function SocialMedia() {
 
 
                                 <div className='info'>
-                                    Hesapları tekrardan sıralayabilirsin.
+                                    Hesaplarınız Sıralayın
                                 </div>
                                 <div className='position-header-text'>
-                                    Pozisyon
+                                    İkonların Konumu
                                 </div>
                                 <div className='position-desciription-text'>
-                                    İkonların konumu:
+                                    {/* İkonların konumu: */}
                                 </div>
                                 <div className='position-radio-buttons'>
                                     <div className='content-radio'>

@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import GlobalLayout from "../layouts/global-layout";
 import StartPageLayout from "../layouts/start-page-layout";
 
+
+
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
